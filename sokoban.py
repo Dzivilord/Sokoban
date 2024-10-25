@@ -4,6 +4,7 @@ import numpy as np
 import time
 import psutil
 import os
+import heapq
 
 """Tải các câu đố và định nghĩa quy tắc của trò chơi Sokoban"""
 
@@ -102,17 +103,17 @@ def updateState(posPlayer, posBox, action):
     """Trả về trạng thái trò chơi cập nhật sau khi thực hiện một hành động"""
     xPlayer, yPlayer = posPlayer  # Vị trí trước đó của người chơi
     newPosPlayer = (xPlayer + action[0], yPlayer + action[1])  # Vị trí hiện tại của người chơi
-    # Chuyển đổi danh sách hộp thành tuple để dễ dàng thao tác
-    posBox = [tuple(box) for box in posBox]
+    posBox = list(posBox)  # Chuyển đổi tuple hộp thành danh sách để dễ dàng thao tác
+
     if action[-1].isupper():  # Nếu hành động là đẩy
         # Tính toán vị trí hộp mới
         newPosBox = (xPlayer + 2 * action[0], yPlayer + 2 * action[1])
         # Cập nhật vị trí hộp
-        posBox = [box for box in posBox if box != newPosPlayer]  # Loại bỏ hộp đã bị đẩy
-        posBox.append(newPosBox)  # Thêm hộp mới vào vị trí mới
+        for i in range(len(posBox)):
+            if posBox[i] == newPosPlayer:
+                posBox[i] = newPosBox  # Cập nhật vị trí mới của hộp
 
     return newPosPlayer, tuple(posBox)  # Trả về vị trí mới của người chơi và danh sách hộp
-
 
 def isFailed(posBox):
     """Kiểm tra xem trạng thái có thể thất bại hay không, sau đó cắt tỉa tìm kiếm"""
@@ -156,12 +157,12 @@ def isFailed(posBox):
 
 """Implement all approcahes"""
 
-def breadthFirstSearch():
+def bfs():
     """Thuật toán tìm kiếm theo chiều rộng"""
 
     # Thời gian bắt đầu
     time_start = time.time()
-    weightList, layout = parse_file('../sokoban-solver-master/sokobanLevels/level1.txt')
+    weightList, layout = parse_file('sokobanLevels/level1.txt')
 
     # Vị trí bắt đầu của người chơi và các hộp
     beginBox = PosOfBoxes(gameState, weightList)
@@ -248,6 +249,111 @@ def breadthFirstSearch():
 
 
 
+class PriorityQueue:
+    """Define a PriorityQueue data structure that will be used"""
+    def  __init__(self):
+        self.Heap = []
+        self.Count = 0
+
+    def push(self, item, priority):
+        entry = (priority, self.Count, item)
+        heapq.heappush(self.Heap, entry)
+        self.Count += 1
+
+    def pop(self):
+        (_, _, item) = heapq.heappop(self.Heap)
+        return item
+
+    def isEmpty(self):
+        return len(self.Heap) == 0
+
+
+def cost(action, currentBoxPos, newBoxPos):
+    """A cost function that computes the total cost based on actions"""
+    # nếu action viết hoa thì + thêm weight
+    # nếu không thì là 1
+    if action[-1].islower():
+        return 1
+    else:
+        positions = [item[0] for item in currentBoxPos]
+        for index in range(len(positions)):
+            if positions[index] != newBoxPos[index]:
+                return index # trả về index của hộp bị đẩy
+        return 1 + currentBoxPos[index][1]  # Trả về weight của hộp bị đẩy
+    
+
+def ucs():
+    """Implement uniformCostSearch approach"""
+    time_start = time.time()  # Thời gian bắt đầu
+    weightList, layout = parse_file('sokobanLevels/level1.txt')
+
+    # Vị trí bắt đầu của người chơi và các hộp
+    beginBox = PosOfBoxes(gameState, weightList)
+    beginPlayer = PosOfPlayer(gameState)
+
+    # Trạng thái bắt đầu
+    startState = (beginPlayer, tuple([item[0] for item in beginBox]))
+    frontier = PriorityQueue()
+    frontier.push((startState, 0), 0)  # (state, accumulated_cost), priority=accumulated_cost
+    exploredSet = set()
+    actions = PriorityQueue()
+    actions.push([0], 0)  # Đưa hành động 0 ban đầu vào hàng đợi
+
+    node_count = 0
+
+    while not frontier.isEmpty():
+        # Pop the state with the lowest cost (priority)
+        (currentPlayerPos, currentBoxPos), current_cost = frontier.pop()
+        node_action = actions.pop()
+        node_count += 1
+
+        # Kiểm tra xem đã đạt đến trạng thái kết thúc hay chưa
+        if isEndState(currentBoxPos):  # currentBoxPos là vị trí của các hộp
+            print(''.join(node_action[1:]))  # In các hành động đã thực hiện
+
+            # Tính toán thời gian và bộ nhớ sử dụng
+            end_time = time.time()
+            elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
+            memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
+
+            # In kết quả
+            print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
+            return  # Thoát khi tìm thấy giải pháp
+
+        # Nếu trạng thái chưa được khám phá
+        if (currentPlayerPos, currentBoxPos) not in exploredSet:
+            exploredSet.add((currentPlayerPos, currentBoxPos))
+            
+            # Duyệt qua các hành động hợp lệ từ trạng thái hiện tại
+            for action in legalActions(currentPlayerPos, currentBoxPos):  # currentPlayerPos là vị trí người chơi, currentBoxPos là các hộp
+                newPosPlayer, newPosBox = updateState(currentPlayerPos, currentBoxPos, action)
+
+                # Bỏ qua trạng thái không hợp lệ
+                if isFailed(newPosBox):
+                    continue
+                    
+                # Tính toán chi phí mới
+                # Xác định hộp nào đang được đẩy để thêm trọng số của nó vào new_cost
+                if action[-1].isupper():  # Nếu hành động là đẩy
+                    # Tìm vị trí hộp mới
+                    pushed_box_index = None
+                    for index, box_pos in enumerate(currentBoxPos):
+                        if box_pos != newPosBox[index]:
+                            pushed_box_index = index
+                            break
+                    if pushed_box_index is not None:
+                        new_cost = current_cost + weightList[pushed_box_index]
+                    else:
+                        new_cost = current_cost + 1  # Trường hợp không tìm thấy hộp bị đẩy
+                else:
+                    new_cost = current_cost + 1  # Nếu hành động không phải là đẩy, chi phí là 1
+
+                # Thêm trạng thái mới và chi phí vào hàng đợi
+                frontier.push(((newPosPlayer, newPosBox), new_cost), new_cost)
+                actions.push(node_action + [action[-1]], new_cost)
+                    
+
+
 def parse_file(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
@@ -257,13 +363,11 @@ def parse_file(filename):
     return weights, layout
 
 if __name__ == '__main__':
-    time_start = time.time()
     # Đọc file level1.txt
-    weights, layout = parse_file('../sokoban-solver-master/sokobanLevels/level1.txt')
+    weights, layout = parse_file('sokobanLevels/level1.txt')
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
 
-    breadthFirstSearch()
-
-    time_end=time.time()
+    bfs()
+    ucs()
