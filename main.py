@@ -2,7 +2,7 @@ import os
 import pygame
 from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from time import sleep
-
+import threading
 # Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -31,7 +31,8 @@ images = {
     'DFSButton':pygame.image.load('Image/DFS.png'),
     'UCSButton':pygame.image.load('Image/UCS.png'),
     'AStarButton':pygame.image.load('Image/AStar.png'),
-    'ResetButton':pygame.image.load('Image/reset.png')
+    'ResetButton':pygame.image.load('Image/reset.png'),
+    'StopButton':pygame.image.load('Image/stop.png')
     
 }
 
@@ -51,6 +52,8 @@ check_point_list, rocks_point_list = [], []
 
 rocks_weights=[]
 total_weights_pushed=0
+
+
 
 def read_map(file_path):
     global rocks_weights
@@ -117,7 +120,8 @@ def draw_interface():
     draw_button(images['DFSButton'],650,100)
     draw_button(images['UCSButton'],530,210)
     draw_button(images["AStarButton"],650,210)
-    draw_button(images['ResetButton'],150,20)
+    draw_button(images['ResetButton'],50,20)
+    draw_button(images['StopButton'],150,20)
 
 
 
@@ -212,10 +216,20 @@ def check_for_completion(board):
     if all(board[x][y] == '$' for x, y in check_point_list):
         print("Level Complete!")
 
+stop_moving = False
+def stop_move():
+    global stop_moving
+    stop_moving = True
+    move_thread.daemon
+    
+
+    
 def moveOnInstruct(steps):
     steps=str(steps).lower()
     #print(steps)
     for step in steps:
+        if stop_moving:  # Kiểm tra nếu yêu cầu dừng
+            break
         if step=='l':
             move_player(board,"LEFT")
         elif step=='r':
@@ -226,9 +240,15 @@ def moveOnInstruct(steps):
             move_player(board,"DOWN")
         render_map(board) 
         pygame.display.flip()  
-        sleep(0.2)
-
+        sleep(0.5)
+def start_move_on_instruct(steps):
+    global stop_moving
+    global move_thread
+    stop_moving = False  
+    move_thread = threading.Thread(target=moveOnInstruct, args=(steps,))
+    move_thread.start()
 # Main loop
+
 def main():
     global board,instruct_step
     board = read_map(map_file_paths[selected_level])
@@ -256,23 +276,25 @@ def main():
                     elif draw_button(images['arrowRight'], 480, 480):
                         change_level(1)
                     elif draw_button(images["BFSButton"], 530, 100):
-                        instruct_step=""
-                        moveOnInstruct(instruct_step)
+                        instruct_step="uLulDrrRRRRRRurD"
+                        start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images["DFSButton"], 650, 480):
                         instruct_step=""
-                        moveOnInstruct(instruct_step) 
+                        start_move_on_instruct(instruct_step) 
                                          
                     elif draw_button(images['UCSButton'], 530, 210):
-                        instruct_step=""
-                        moveOnInstruct(instruct_step)
+                        instruct_step="lluRurrDrdLLLuRRRRRRRurD"
+                        start_move_on_instruct(instruct_step)
 
                     elif draw_button(images['AStarButton'], 650, 210):
                         instruct_step=""
-                        moveOnInstruct(instruct_step)
+                        start_move_on_instruct(instruct_step)
                         
-                    elif draw_button(images['ResetButton'], 150, 20):
+                    elif draw_button(images['ResetButton'], 50, 20):
                         change_level(0)
+                    elif draw_button(images['StopButton'],150,20):
+                        stop_move()
                                           
         # Render the updated map
         render_map(board)
