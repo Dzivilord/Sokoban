@@ -37,7 +37,7 @@ images = {
 }
 
 # Map files and settings
-map_directory = "Map"
+map_directory = "Input"
 map_file_paths = [os.path.join(map_directory, f) for f in os.listdir(map_directory) if f.endswith('.txt')]
 
 # Initialize global variables
