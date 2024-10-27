@@ -160,6 +160,7 @@ def isFailed(posBox):
 def bfs(path):
     """Thuật toán tìm kiếm theo chiều rộng"""
 
+    path = f'Map/level{level}.txt'
     # Thời gian bắt đầu
     time_start = time.time()
     weightList, layout = parse_file(path)
@@ -228,7 +229,17 @@ def bfs(path):
 
             # In kết quả
             print(f'Steps: {len(node_action[1:])}, Total Weight: {totalWeight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
-            break
+
+            # Ghi kết quả vào file
+            output_path = f'output/level{level}_bfs.txt'
+            with open(output_path, 'w') as file:
+                file.write(f'Path: {''.join(node_action[1:])}\n')
+                file.write(f'Steps: {len(node_action[1:])}\n')
+                file.write(f'Total Weight: {totalWeight}\n')
+                file.write(f'Node: {node_count}\n')
+                file.write(f'Time (ms): {elapsed_time:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+            return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái hiện tại chưa được khám phá
         if node[-1] not in exploredSet:
@@ -284,6 +295,7 @@ def cost(action, currentBoxPos, newBoxPos):
 
 def ucs(path):
     """Implement uniformCostSearch approach"""
+    path = f'Map/level{level}.txt'
     time_start = time.time()  # Thời gian bắt đầu
     weightList, layout = parse_file(path)
 
@@ -318,7 +330,17 @@ def ucs(path):
 
             # In kết quả
             print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
-            return  # Thoát khi tìm thấy giải pháp
+
+            # Ghi kết quả vào file
+            output_path = f'output/level{level}_ucs.txt'
+            with open(output_path, 'w') as file:
+                file.write(f'Path: {''.join(node_action[1:])}\n')
+                file.write(f'Steps: {len(node_action[1:])}\n')
+                file.write(f'Total Weight: {current_cost}\n')
+                file.write(f'Node: {node_count}\n')
+                file.write(f'Time (ms): {elapsed_time:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+            return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái chưa được khám phá
         if (currentPlayerPos, currentBoxPos) not in exploredSet:
@@ -364,11 +386,12 @@ def parse_file(filename):
 
 if __name__ == '__main__':
     # Đọc file level1.txt
-    path='Map/level1.txt'
+    level = 1
+    path = f'Map/level{level}.txt'
     weights, layout = parse_file(path)
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
 
-    bfs(path)
-    ucs(path)
+    bfs(level)
+    ucs(level)
