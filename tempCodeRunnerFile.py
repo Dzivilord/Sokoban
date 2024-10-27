@@ -1,1 +1,1 @@
-name__ == '__main_
+rocks_weights

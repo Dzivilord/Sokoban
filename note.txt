@@ -1,3 +1,2 @@
 project nhỏ như lỗ mũi mà chia branch làm gì k biết
 
-Loi: Thieu chuyên nghiệp, rồi xem sử dụng  __name__="__main__" đã đúng chưa mà đòi không chia, xưng tên đi thằng l ở trên

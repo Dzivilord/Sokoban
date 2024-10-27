@@ -157,12 +157,12 @@ def isFailed(posBox):
 
 """Implement all approcahes"""
 
-def bfs():
+def bfs(path):
     """Thuật toán tìm kiếm theo chiều rộng"""
 
     # Thời gian bắt đầu
     time_start = time.time()
-    weightList, layout = parse_file('sokobanLevels/level1.txt')
+    weightList, layout = parse_file(path)
 
     # Vị trí bắt đầu của người chơi và các hộp
     beginBox = PosOfBoxes(gameState, weightList)
@@ -282,10 +282,10 @@ def cost(action, currentBoxPos, newBoxPos):
         return 1 + currentBoxPos[index][1]  # Trả về weight của hộp bị đẩy
     
 
-def ucs():
+def ucs(path):
     """Implement uniformCostSearch approach"""
     time_start = time.time()  # Thời gian bắt đầu
-    weightList, layout = parse_file('sokobanLevels/level1.txt')
+    weightList, layout = parse_file(path)
 
     # Vị trí bắt đầu của người chơi và các hộp
     beginBox = PosOfBoxes(gameState, weightList)
@@ -364,10 +364,11 @@ def parse_file(filename):
 
 if __name__ == '__main__':
     # Đọc file level1.txt
-    weights, layout = parse_file('sokobanLevels/level1.txt')
+    path='Map/level1.txt'
+    weights, layout = parse_file(path)
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
 
-    bfs()
-    ucs()
+    bfs(path)
+    ucs(path)
