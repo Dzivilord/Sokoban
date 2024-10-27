@@ -138,10 +138,12 @@ def find_positions(board, item):
 
 def change_level(direction):
     """Change level based on direction and reset board."""
+   
     global selected_level, board, player_x, player_y, check_point_list, rocks_point_list,step_count,rocks_weights,total_weights_pushed,rocks_weights_dict
 
     
     selected_level = (selected_level + direction) % len(map_file_paths)
+    
     rocks_weights=[]
     board = read_map(map_file_paths[selected_level])
     check_point_list, rocks_point_list = find_positions(board, '.'), find_positions(board, '$')
@@ -276,19 +278,19 @@ def main():
                     elif draw_button(images['arrowRight'], 480, 480):
                         change_level(1)
                     elif draw_button(images["BFSButton"], 530, 100):
-                        instruct_step="uLulDrrRRRRRRurD"
+                        #instruct_step=bfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images["DFSButton"], 650, 480):
-                        instruct_step=""
+                        #instruct_step=dfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step) 
                                          
                     elif draw_button(images['UCSButton'], 530, 210):
-                        instruct_step="lluRurrDrdLLLuRRRRRRRurD"
+                        #instruct_step=ucs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
 
                     elif draw_button(images['AStarButton'], 650, 210):
-                        instruct_step=""
+                        #instruct_step=AStar(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images['ResetButton'], 50, 20):

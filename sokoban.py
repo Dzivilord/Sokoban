@@ -386,12 +386,12 @@ def parse_file(filename):
 
 if __name__ == '__main__':
     # Đọc file level1.txt
-    level = 1
-    path = f'Map/level{level}.txt'
+    level = 5
+    path = f'Input/Map{level}.txt'
     weights, layout = parse_file(path)
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
 
-    bfs(level)
-    ucs(level)
+    bfs(path)
+    ucs(path)
