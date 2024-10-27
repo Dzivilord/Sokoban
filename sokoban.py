@@ -160,7 +160,7 @@ def isFailed(posBox):
 def bfs(path):
     """Thuật toán tìm kiếm theo chiều rộng"""
 
-    path = f'Map/level{level}.txt'
+    path = f'input/map{case}.txt'
     # Thời gian bắt đầu
     time_start = time.time()
     weightList, layout = parse_file(path)
@@ -231,7 +231,7 @@ def bfs(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {totalWeight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/level{level}_bfs.txt'
+            output_path = f'output/map{case}_bfs.txt'
             with open(output_path, 'w') as file:
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
@@ -295,7 +295,7 @@ def cost(action, currentBoxPos, newBoxPos):
 
 def ucs(path):
     """Implement uniformCostSearch approach"""
-    path = f'Map/level{level}.txt'
+    path = f'input/map{case}.txt'
     time_start = time.time()  # Thời gian bắt đầu
     weightList, layout = parse_file(path)
 
@@ -332,7 +332,7 @@ def ucs(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/level{level}_ucs.txt'
+            output_path = f'output/map{case}_ucs.txt'
             with open(output_path, 'w') as file:
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
@@ -386,12 +386,12 @@ def parse_file(filename):
 
 if __name__ == '__main__':
     # Đọc file level1.txt
-    level = 1
-    path = f'Map/level{level}.txt'
+    case = 1
+    path = f'input/map{case}.txt'
     weights, layout = parse_file(path)
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
 
-    bfs(level)
-    ucs(level)
+    bfs(case)
+    ucs(case)
