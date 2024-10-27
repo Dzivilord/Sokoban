@@ -1,1 +1,1 @@
-rocks_weights
+            print(node_action[1:])  # In hành động đã thực hiện
