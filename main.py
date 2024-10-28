@@ -81,7 +81,9 @@ def render_map(board):
             screen.blit(images['space'], pos)
             if cell == '#':
                 screen.blit(images['wall'], pos)
-            elif cell == '$':
+            elif cell == '.':
+                screen.blit(images['checkPoint'], pos)
+            elif cell == '$' or cell=="*":
                 screen.blit(images['stone'], pos)
                 rock_position = (i, j)  # Position of the rock
                 if rock_position in rocks_weights_dict:
@@ -89,9 +91,8 @@ def render_map(board):
                     weight_text = font.render(str(weight), True, YELLOW)  # Render weight text
                     weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 10))  # Position the text above the stone
                     screen.blit(weight_text, weight_rect)  # Draw the weight text
-            elif cell == '.':
-                screen.blit(images['checkPoint'], pos)
-            elif cell == '@':
+
+            elif cell == '@' or cell== '+' :
                 screen.blit(images['player'], pos)
 
 
@@ -135,7 +136,7 @@ def draw_button(image, x, y):
 
 def find_positions(board, item):
     """Find positions of specified items in the map."""
-    return [(i, j) for i, row in enumerate(board) for j, cell in enumerate(row) if cell == item]
+    return [(i, j) for i, row in enumerate(board) for j, cell in enumerate(row) if cell in item]
 
 def change_level(direction):
     """Change level based on direction and reset board."""
@@ -147,8 +148,8 @@ def change_level(direction):
     
     rocks_weights=[]
     board = read_map(map_file_paths[selected_level])
-    check_point_list, rocks_point_list = find_positions(board, '.'), find_positions(board, '$')
-    player_x, player_y = find_positions(board, '@')[0]
+    check_point_list, rocks_point_list = find_positions(board, ('.','+','*')), find_positions(board, ('$','*'))
+    player_x, player_y = find_positions(board, ('@','+'))[0]
     step_count = 0
     total_weights_pushed=0
     rocks_weights_dict={}
@@ -173,7 +174,7 @@ def move_player(board, direction):
         step_count += 1
 
     # Nếu vị trí mới có viên đá
-    elif board[new_x][new_y] == '$':
+    elif board[new_x][new_y] == '$' or board[new_x][new_y] == '*':
         stone_new_x, stone_new_y = new_x + dx, new_y + dy  # Vị trí mới cho viên đá
 
         # Kiểm tra xem viên đá có thể được đẩy không
@@ -189,6 +190,10 @@ def move_player(board, direction):
             board[stone_new_x][stone_new_y], board[new_x][new_y] = '$', '@'
             board[player_x][player_y] = ' '
 
+            if board[stone_new_x][stone_new_y] in check_point_list:
+                board[stone_new_x][stone_new_y] = '*'
+            elif board[new_x][new_y] in check_point_list:
+                board[new_x][new_y] = '+'
             # Cập nhật vị trí người chơi
             player_x, player_y = new_x, new_y
             step_count += 1
@@ -207,7 +212,7 @@ def move_player(board, direction):
                 #print(f"Updated weight for rock at {new_stone_position}: {weight}")
                 #print(f"Total weight pushed: {total_weights_pushed}")
     for point in check_point_list:
-        if board[point[0]][point[1]] != '@' and board[point[0]][point[1]] != "$":
+        if board[point[0]][point[1]] != '@' and board[point[0]][point[1]] != "$" and board[point[0]][point[1]] != "+"and board[point[0]][point[1]] != "*":
             board[point[0]][point[1]] = "."
 
     # Kiểm tra xem trò chơi đã hoàn thành chưa
