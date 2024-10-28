@@ -484,6 +484,95 @@ def parse_file(filename):
     layout = [line.strip() for line in lines[1:]]  # Các dòng còn lại là ma trận
     return weights, layout
 
+
+def heuristic(player_pos, box_pos, goal_pos):
+    """Heuristic function: shortest distance from player to box + shortest distance from box to goal"""
+    player_to_box = min([abs(player_pos[0] - box[0]) + abs(player_pos[1] - box[1]) for box in box_pos])
+    box_to_goal = min([abs(box[0] - goal[0]) + abs(box[1] - goal[1]) for box in box_pos for goal in goal_pos])
+    return player_to_box + box_to_goal
+
+def astar(path):
+    """Implement A* search approach"""
+    time_start = time.time()  # Thời gian bắt đầu
+    weightList, layout = parse_file(path)
+
+    # Vị trí bắt đầu của người chơi và các hộp
+    beginBox = PosOfBoxes(gameState, weightList)
+    beginPlayer = PosOfPlayer(gameState)
+
+    # Trạng thái bắt đầu
+    startState = (beginPlayer, tuple([item[0] for item in beginBox]))
+    frontier = PriorityQueue()
+    frontier.push((startState, 0), 0)  # (state, accumulated_cost), priority=accumulated_cost + heuristic
+    exploredSet = set()
+    actions = PriorityQueue()
+    actions.push([0], 0)  # Đưa hành động 0 ban đầu vào hàng đợi
+
+    node_count = 0
+
+    while not frontier.isEmpty():
+        # Pop the state with the lowest cost (priority)
+        (currentPlayerPos, currentBoxPos), current_cost = frontier.pop()
+        node_action = actions.pop()
+        node_count += 1
+
+        # Kiểm tra xem đã đạt đến trạng thái kết thúc hay chưa
+        if isEndState(currentBoxPos):  # currentBoxPos là vị trí của các hộp
+            print(''.join(node_action[1:]))  # In các hành động đã thực hiện
+
+            # Tính toán thời gian và bộ nhớ sử dụng
+            end_time = time.time()
+            elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
+            memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
+
+            # In kết quả
+            print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
+
+            # Ghi kết quả vào file
+            output_path = f'output/map[{case}]_astar.txt'
+            with open(output_path, 'w') as file:
+                file.write(f'Path: {''.join(node_action[1:])}\n')
+                file.write(f'Steps: {len(node_action[1:])}\n')
+                file.write(f'Total Weight: {current_cost}\n')
+                file.write(f'Node: {node_count}\n')
+                file.write(f'Time (ms): {elapsed_time:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+            return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
+
+        # Nếu trạng thái chưa được khám phá
+        if (currentPlayerPos, currentBoxPos) not in exploredSet:
+            exploredSet.add((currentPlayerPos, currentBoxPos))
+            
+            # Duyệt qua các hành động hợp lệ từ trạng thái hiện tại
+            for action in legalActions(currentPlayerPos, currentBoxPos):  # currentPlayerPos là vị trí người chơi, currentBoxPos là các hộp
+                newPosPlayer, newPosBox = updateState(currentPlayerPos, currentBoxPos, action)
+
+                # Bỏ qua trạng thái không hợp lệ
+                if isFailed(newPosBox):
+                    continue
+                    
+                # Tính toán chi phí mới
+                if action[-1].isupper():  # Nếu hành động là đẩy
+                    pushed_box_index = None
+                    for index, box_pos in enumerate(currentBoxPos):
+                        if box_pos != newPosBox[index]:
+                            pushed_box_index = index
+                            break
+                    if pushed_box_index is not None:
+                        new_cost = current_cost + weightList[pushed_box_index]
+                    else:
+                        new_cost = current_cost  # Trường hợp không tìm thấy hộp bị đẩy
+                else:
+                    new_cost = current_cost   # Nếu hành động không phải là đẩy, chi phí là 1
+
+                # Tính toán giá trị heuristic
+                h = heuristic(newPosPlayer, newPosBox, posGoals)
+                total_cost = new_cost + h
+
+                # Thêm trạng thái mới và chi phí vào hàng đợi
+                frontier.push(((newPosPlayer, newPosBox), new_cost), total_cost)
+                actions.push(node_action + [action[-1]], total_cost)
+
 gameState=""
 posWalls=""
 posGoals=""
