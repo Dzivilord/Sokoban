@@ -1,0 +1,15 @@
+Algorithms: BFS
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 200
+Node: 6874
+Time (ms): 372.67
+Memory (MB): 63.07
+
+Algorithms: Astar
+Path: uluurDDlulullllDD
+Steps: 17
+Total Weight: 213
+Node: 22159
+Time (ms): 1117.71
+Memory (MB): 63.41

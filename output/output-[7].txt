@@ -1,0 +1,15 @@
+Algorithms: Astar
+Path: ululDrdLLuruurrRRdrruLLLLLLLrrrrrddrdrUUluR
+Steps: 43
+Total Weight: 24
+Node: 671182
+Time (ms): 51633.91
+Memory (MB): 138.84
+Algorithms: UCS
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 42
+Node: 586486
+Time (ms): 44503.16
+Memory (MB): 151.22
+
