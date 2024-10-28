@@ -1,1 +1,1 @@
-rocks_weights
+cell== '+'

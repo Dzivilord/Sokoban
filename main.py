@@ -3,6 +3,7 @@ import pygame
 from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from time import sleep
 import threading
+from sokoban import bfs, dfs, ucs,astar
 # Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -37,7 +38,7 @@ images = {
 }
 
 # Map files and settings
-map_directory = "Input"
+map_directory = "input"
 map_file_paths = [os.path.join(map_directory, f) for f in os.listdir(map_directory) if f.endswith('.txt')]
 
 # Initialize global variables
@@ -80,7 +81,9 @@ def render_map(board):
             screen.blit(images['space'], pos)
             if cell == '#':
                 screen.blit(images['wall'], pos)
-            elif cell == '$':
+            elif cell == '.':
+                screen.blit(images['checkPoint'], pos)
+            elif cell == '$' or cell=="*":
                 screen.blit(images['stone'], pos)
                 rock_position = (i, j)  # Position of the rock
                 if rock_position in rocks_weights_dict:
@@ -88,9 +91,8 @@ def render_map(board):
                     weight_text = font.render(str(weight), True, YELLOW)  # Render weight text
                     weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 10))  # Position the text above the stone
                     screen.blit(weight_text, weight_rect)  # Draw the weight text
-            elif cell == '.':
-                screen.blit(images['checkPoint'], pos)
-            elif cell == '@':
+
+            elif cell == '@' or cell== '+' :
                 screen.blit(images['player'], pos)
 
 
@@ -103,23 +105,23 @@ def draw_interface():
     screen.blit(level_text, level_text.get_rect(center=(320, 510)))
     
     step_text = font.render(f"Steps: {step_count}", True, YELLOW)
-    step_text_rect = step_text.get_rect(center=(650, 50))
+    step_text_rect = step_text.get_rect(center=(590, 50))
     screen.blit(step_text, step_text_rect)
     
     solution_text = font.render(f"Solution:{instruct_step}", True, YELLOW)
-    solution_text_rect = solution_text.get_rect(center=(250, 380))
+    solution_text_rect = solution_text.get_rect(center=(275, 430))
     screen.blit(solution_text, solution_text_rect)
     
     weights_text = font.render(f"Total weights:{total_weights_pushed}", True, YELLOW)
-    weights_text_rect = weights_text.get_rect(center=(400, 100))
+    weights_text_rect = weights_text.get_rect(center=(590, 80))
     screen.blit(weights_text, weights_text_rect)
     # Draw arrow buttons
     draw_button(images['arrowLeft'], 90, 480)
     draw_button(images['arrowRight'], 480, 480)
-    draw_button(images['BFSButton'],530,100)
-    draw_button(images['DFSButton'],650,100)
-    draw_button(images['UCSButton'],530,210)
-    draw_button(images["AStarButton"],650,210)
+    draw_button(images['BFSButton'],630,100)
+    draw_button(images['DFSButton'],630,210)
+    draw_button(images['UCSButton'],630,320)
+    draw_button(images["AStarButton"],630,430)
     draw_button(images['ResetButton'],50,20)
     draw_button(images['StopButton'],150,20)
 
@@ -134,18 +136,20 @@ def draw_button(image, x, y):
 
 def find_positions(board, item):
     """Find positions of specified items in the map."""
-    return [(i, j) for i, row in enumerate(board) for j, cell in enumerate(row) if cell == item]
+    return [(i, j) for i, row in enumerate(board) for j, cell in enumerate(row) if cell in item]
 
 def change_level(direction):
     """Change level based on direction and reset board."""
+   
     global selected_level, board, player_x, player_y, check_point_list, rocks_point_list,step_count,rocks_weights,total_weights_pushed,rocks_weights_dict
 
     
     selected_level = (selected_level + direction) % len(map_file_paths)
+    
     rocks_weights=[]
     board = read_map(map_file_paths[selected_level])
-    check_point_list, rocks_point_list = find_positions(board, '.'), find_positions(board, '$')
-    player_x, player_y = find_positions(board, '@')[0]
+    check_point_list, rocks_point_list = find_positions(board, ('.','+','*')), find_positions(board, ('$','*'))
+    player_x, player_y = find_positions(board, ('@','+'))[0]
     step_count = 0
     total_weights_pushed=0
     rocks_weights_dict={}
@@ -170,7 +174,7 @@ def move_player(board, direction):
         step_count += 1
 
     # Nếu vị trí mới có viên đá
-    elif board[new_x][new_y] == '$':
+    elif board[new_x][new_y] == '$' or board[new_x][new_y] == '*':
         stone_new_x, stone_new_y = new_x + dx, new_y + dy  # Vị trí mới cho viên đá
 
         # Kiểm tra xem viên đá có thể được đẩy không
@@ -186,6 +190,10 @@ def move_player(board, direction):
             board[stone_new_x][stone_new_y], board[new_x][new_y] = '$', '@'
             board[player_x][player_y] = ' '
 
+            if board[stone_new_x][stone_new_y] in check_point_list:
+                board[stone_new_x][stone_new_y] = '*'
+            elif board[new_x][new_y] in check_point_list:
+                board[new_x][new_y] = '+'
             # Cập nhật vị trí người chơi
             player_x, player_y = new_x, new_y
             step_count += 1
@@ -204,7 +212,7 @@ def move_player(board, direction):
                 #print(f"Updated weight for rock at {new_stone_position}: {weight}")
                 #print(f"Total weight pushed: {total_weights_pushed}")
     for point in check_point_list:
-        if board[point[0]][point[1]] != '@' and board[point[0]][point[1]] != "$":
+        if board[point[0]][point[1]] != '@' and board[point[0]][point[1]] != "$" and board[point[0]][point[1]] != "+"and board[point[0]][point[1]] != "*":
             board[point[0]][point[1]] = "."
 
     # Kiểm tra xem trò chơi đã hoàn thành chưa
@@ -275,20 +283,28 @@ def main():
                         change_level(-1)
                     elif draw_button(images['arrowRight'], 480, 480):
                         change_level(1)
-                    elif draw_button(images["BFSButton"], 530, 100):
-                        instruct_step="uLulDrrRRRRRRurD"
+                    elif draw_button(images["BFSButton"], 630, 100):
+                        change_level(0)
+                        
+                        instruct_step=bfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
-                    elif draw_button(images["DFSButton"], 650, 480):
-                        instruct_step=""
+                    elif draw_button(images["DFSButton"], 630, 210):
+                        change_level(0)
+                        
+                        instruct_step=dfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step) 
                                          
-                    elif draw_button(images['UCSButton'], 530, 210):
-                        instruct_step="lluRurrDrdLLLuRRRRRRRurD"
+                    elif draw_button(images['UCSButton'], 630, 320):
+                        change_level(0)
+                        
+                        instruct_step=ucs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
 
-                    elif draw_button(images['AStarButton'], 650, 210):
-                        instruct_step=""
+                    elif draw_button(images['AStarButton'], 630, 430):
+                        change_level(0)
+                        
+                        instruct_step=astar(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images['ResetButton'], 50, 20):
