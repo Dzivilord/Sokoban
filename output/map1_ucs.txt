@@ -1,6 +1,0 @@
-Path: uLulDurrrrRRRRurDD
-Steps: 18
-Total Weight: 214
-Node: 26089
-Time (ms): 787.06
-Memory (MB): 38.17

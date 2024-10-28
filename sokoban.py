@@ -5,8 +5,9 @@ import time
 import psutil
 import os
 import heapq
-
+import re
 """Tải các câu đố và định nghĩa quy tắc của trò chơi Sokoban"""
+
 
 def transferToGameState(layout):
     """Chuyển đổi bố cục của câu đố ban đầu thành trạng thái trò chơi"""
@@ -157,7 +158,10 @@ def isFailed(posBox):
 
 def bfs(path):
     """Thuật toán tìm kiếm theo chiều rộng"""
-    path = f'input/map{case}.txt'
+    number = re.findall(r'\d+', path)
+    case = [int(num) for num in number]
+    Setup(path)
+
     # Thời gian bắt đầu
     time_start = time.time()
     weightList, layout = parse_file(path)
@@ -228,14 +232,15 @@ def bfs(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {totalWeight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/map{case}_bfs.txt'
-            with open(output_path, 'w') as file:
+            output_path = f'output/output-{case}.txt'
+            with open(output_path, 'a') as file:
+                file.write("Algorithms: BFS\n")
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
                 file.write(f'Total Weight: {totalWeight}\n')
                 file.write(f'Node: {node_count}\n')
                 file.write(f'Time (ms): {elapsed_time:.2f}\n')
-                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n\n')
             return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái hiện tại chưa được khám phá
@@ -257,8 +262,10 @@ def bfs(path):
 
 def dfs(path):
     """Thuật toán tìm kiếm theo chiều sâu"""
-    path = f'input/map{case}.txt'
+    number = re.findall(r'\d+', path)
+    case = [int(num) for num in number]
     # Thời gian bắt đầu
+    Setup(path)
     time_start = time.time()
     weightList, layout = parse_file(path)
 
@@ -326,14 +333,15 @@ def dfs(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {totalWeight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/map{case}_dfs.txt'
-            with open(output_path, 'w') as file:
+            output_path = f'output/output-{case}.txt'
+            with open(output_path, 'a') as file:
+                file.write("Algorithms: DFS\n")
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
                 file.write(f'Total Weight: {totalWeight}\n')
                 file.write(f'Node: {node_count}\n')
                 file.write(f'Time (ms): {elapsed_time:.2f}\n')
-                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n\n')
             return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái hiện tại chưa được khám phá
@@ -386,8 +394,10 @@ def cost(action, currentBoxPos, newBoxPos):
     
 def ucs(path):
     """Implement uniformCostSearch approach"""
-    path = f'input/map{case}.txt'
+    number = re.findall(r'\d+', path)
+    case = [int(num) for num in number]
     time_start = time.time()  # Thời gian bắt đầu
+    Setup(path)
     weightList, layout = parse_file(path)
 
     # Vị trí bắt đầu của người chơi và các hộp
@@ -423,14 +433,15 @@ def ucs(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/map{case}_ucs.txt'
-            with open(output_path, 'w') as file:
+            output_path = f'output/output-{case}.txt'
+            with open(output_path, 'a') as file:
+                file.write("Algorithms: UCS\n")
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
                 file.write(f'Total Weight: {current_cost}\n')
                 file.write(f'Node: {node_count}\n')
                 file.write(f'Time (ms): {elapsed_time:.2f}\n')
-                file.write(f'Memory (MB): {memory_usage:.2f}\n')
+                file.write(f'Memory (MB): {memory_usage:.2f}\n\n')
             return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái chưa được khám phá
@@ -473,14 +484,14 @@ def parse_file(filename):
     layout = [line.strip() for line in lines[1:]]  # Các dòng còn lại là ma trận
     return weights, layout
 
-if __name__ == '__main__':
-    # Đọc file level1.txt
-    level = 1
-    path = f'Map/level{level}.txt'
+gameState=""
+posWalls=""
+posGoals=""
+def Setup(path):
+    global gameState, posWalls, posGoals,weights,layout
     weights, layout = parse_file(path)
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
+    
 
-    bfs(case)
-    ucs(case)

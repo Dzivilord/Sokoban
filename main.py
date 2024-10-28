@@ -3,6 +3,7 @@ import pygame
 from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from time import sleep
 import threading
+from sokoban import bfs, dfs, ucs
 # Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -37,7 +38,7 @@ images = {
 }
 
 # Map files and settings
-map_directory = "Input"
+map_directory = "input"
 map_file_paths = [os.path.join(map_directory, f) for f in os.listdir(map_directory) if f.endswith('.txt')]
 
 # Initialize global variables
@@ -103,23 +104,23 @@ def draw_interface():
     screen.blit(level_text, level_text.get_rect(center=(320, 510)))
     
     step_text = font.render(f"Steps: {step_count}", True, YELLOW)
-    step_text_rect = step_text.get_rect(center=(650, 50))
+    step_text_rect = step_text.get_rect(center=(590, 50))
     screen.blit(step_text, step_text_rect)
     
     solution_text = font.render(f"Solution:{instruct_step}", True, YELLOW)
-    solution_text_rect = solution_text.get_rect(center=(250, 380))
+    solution_text_rect = solution_text.get_rect(center=(275, 430))
     screen.blit(solution_text, solution_text_rect)
     
     weights_text = font.render(f"Total weights:{total_weights_pushed}", True, YELLOW)
-    weights_text_rect = weights_text.get_rect(center=(400, 100))
+    weights_text_rect = weights_text.get_rect(center=(590, 80))
     screen.blit(weights_text, weights_text_rect)
     # Draw arrow buttons
     draw_button(images['arrowLeft'], 90, 480)
     draw_button(images['arrowRight'], 480, 480)
-    draw_button(images['BFSButton'],530,100)
-    draw_button(images['DFSButton'],650,100)
-    draw_button(images['UCSButton'],530,210)
-    draw_button(images["AStarButton"],650,210)
+    draw_button(images['BFSButton'],630,100)
+    draw_button(images['DFSButton'],630,210)
+    draw_button(images['UCSButton'],630,320)
+    draw_button(images["AStarButton"],630,430)
     draw_button(images['ResetButton'],50,20)
     draw_button(images['StopButton'],150,20)
 
@@ -277,19 +278,27 @@ def main():
                         change_level(-1)
                     elif draw_button(images['arrowRight'], 480, 480):
                         change_level(1)
-                    elif draw_button(images["BFSButton"], 530, 100):
-                        #instruct_step=bfs(map_file_paths[selected_level])
+                    elif draw_button(images["BFSButton"], 630, 100):
+                        change_level(0)
+                        
+                        instruct_step=bfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
-                    elif draw_button(images["DFSButton"], 650, 480):
-                        #instruct_step=dfs(map_file_paths[selected_level])
+                    elif draw_button(images["DFSButton"], 630, 210):
+                        change_level(0)
+                        
+                        instruct_step=dfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step) 
                                          
-                    elif draw_button(images['UCSButton'], 530, 210):
-                        #instruct_step=ucs(map_file_paths[selected_level])
+                    elif draw_button(images['UCSButton'], 630, 320):
+                        change_level(0)
+                        
+                        instruct_step=ucs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
 
-                    elif draw_button(images['AStarButton'], 650, 210):
+                    elif draw_button(images['AStarButton'], 630, 430):
+                        change_level(0)
+                        
                         #instruct_step=AStar(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
