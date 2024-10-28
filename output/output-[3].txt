@@ -13,3 +13,19 @@ Total Weight: 213
 Node: 22159
 Time (ms): 1117.71
 Memory (MB): 63.41
+Algorithms: BFS
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 200
+Node: 6874
+Time (ms): 365.68
+Memory (MB): 124.04
+
+Algorithms: A*
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 213
+Node: 7124
+Time (ms): 997.68
+Memory (MB): 124.98
+

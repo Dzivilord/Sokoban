@@ -113,3 +113,114 @@ Node: 25114
 Time (ms): 1102.92
 Memory (MB): 62.48
 
+Algorithms: Astar
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 85619
+Time (ms): 3296.77
+Memory (MB): 63.11
+Algorithms: UCS
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 96038
+Time (ms): 3237.55
+Memory (MB): 63.99
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1004.94
+Memory (MB): 63.20
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 2911.97
+Memory (MB): 64.39
+
+Algorithms: UCS
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 96038
+Time (ms): 3367.52
+Memory (MB): 65.17
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1054.40
+Memory (MB): 63.04
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 3031.33
+Memory (MB): 145.18
+
+Algorithms: UCS
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 96038
+Time (ms): 3329.71
+Memory (MB): 138.92
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1022.78
+Memory (MB): 135.83
+
+Algorithms: UCS
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 96038
+Time (ms): 3385.22
+Memory (MB): 128.95
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 3026.88
+Memory (MB): 129.23
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1033.61
+Memory (MB): 60.19
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 2845.18
+Memory (MB): 64.40
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1019.67
+Memory (MB): 63.71
+

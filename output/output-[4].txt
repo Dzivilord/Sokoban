@@ -13,3 +13,35 @@ Total Weight: 313
 Node: 27055
 Time (ms): 1187.29
 Memory (MB): 63.40
+Algorithms: A*
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 313
+Node: 9218
+Time (ms): 1133.12
+Memory (MB): 63.00
+
+Algorithms: BFS
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 6252
+Time (ms): 307.80
+Memory (MB): 62.39
+
+Algorithms: A*
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 313
+Node: 9218
+Time (ms): 1164.22
+Memory (MB): 124.64
+
+Algorithms: BFS
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 6252
+Time (ms): 302.65
+Memory (MB): 115.95
+
