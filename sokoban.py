@@ -493,6 +493,10 @@ def heuristic(player_pos, box_pos, goal_pos):
 
 def astar(path):
     """Implement A* search approach"""
+    number = re.findall(r'\d+', path)
+    case = [int(num) for num in number]
+    time_start = time.time()  # Thời gian bắt đầu
+    Setup(path)
     time_start = time.time()  # Thời gian bắt đầu
     weightList, layout = parse_file(path)
 
@@ -529,8 +533,9 @@ def astar(path):
             print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
-            output_path = f'output/map[{case}]_astar.txt'
-            with open(output_path, 'w') as file:
+            output_path = f'output/output-{case}.txt'
+            with open(output_path, 'a') as file:
+                file.write("Algorithms: Astar\n")
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
                 file.write(f'Total Weight: {current_cost}\n')

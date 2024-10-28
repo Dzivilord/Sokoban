@@ -3,7 +3,7 @@ import pygame
 from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from time import sleep
 import threading
-from sokoban import bfs, dfs, ucs
+from sokoban import bfs, dfs, ucs,astar
 # Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -299,7 +299,7 @@ def main():
                     elif draw_button(images['AStarButton'], 630, 430):
                         change_level(0)
                         
-                        #instruct_step=AStar(map_file_paths[selected_level])
+                        instruct_step=astar(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images['ResetButton'], 50, 20):
