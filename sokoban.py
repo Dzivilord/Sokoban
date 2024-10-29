@@ -394,7 +394,7 @@ def cost(action, currentBoxPos, newBoxPos):
         return 1 + currentBoxPos[index][1]  # Trả về weight của hộp bị đẩy
 
 def ucs(path):
-    """Implement uniformCostSearch approach"""
+    """Implement uniformCostSearch approach with optimization"""
     number = re.findall(r'\d+', path)
     case = [int(num) for num in number]
     time_start = time.time()  # Thời gian bắt đầu
@@ -414,6 +414,7 @@ def ucs(path):
     actions.push([0], 0)  # Đưa hành động 0 ban đầu vào hàng đợi
 
     node_count = 0
+    cost_so_far = {startState: 0}
 
     while not frontier.isEmpty():
         # Pop the state with the lowest cost (priority)
@@ -473,9 +474,12 @@ def ucs(path):
                 else:
                     new_cost = current_cost + 1  # Nếu hành động không phải là đẩy, chi phí là 1
 
-                # Thêm trạng thái mới và chi phí vào hàng đợi
-                frontier.push(((newPosPlayer, newPosBox), new_cost), new_cost)
-                actions.push(node_action + [action[-1]], new_cost)
+                new_state = (newPosPlayer, newPosBox)
+                # Chỉ thêm trạng thái mới vào hàng đợi nếu chi phí mới nhỏ hơn chi phí trước đó
+                if new_state not in cost_so_far or new_cost < cost_so_far[new_state]:
+                    cost_so_far[new_state] = new_cost
+                    frontier.push((new_state, new_cost), new_cost)
+                    actions.push(node_action + [action[-1]], new_cost)
 
 def parse_file(filename):
     with open(filename, 'r') as file:

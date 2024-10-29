@@ -77,3 +77,19 @@ Node: 6252
 Time (ms): 290.80
 Memory (MB): 61.33
 
+Algorithms: UCS
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 313
+Node: 9453
+Time (ms): 1151.12
+Memory (MB): 75.71
+
+Algorithms: A*
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 9218
+Time (ms): 1228.72
+Memory (MB): 75.36
+

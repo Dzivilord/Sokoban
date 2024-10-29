@@ -53,3 +53,19 @@ Node: 6874
 Time (ms): 360.95
 Memory (MB): 61.30
 
+Algorithms: UCS
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 213
+Node: 7540
+Time (ms): 1135.80
+Memory (MB): 75.33
+
+Algorithms: A*
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 200
+Node: 7124
+Time (ms): 1118.38
+Memory (MB): 75.70
+
