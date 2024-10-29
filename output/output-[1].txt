@@ -344,3 +344,27 @@ Node: 30352
 Time (ms): 3425.74
 Memory (MB): 77.85
 
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 405
+Node: 27064
+Time (ms): 2165.76
+Memory (MB): 61.12
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 726.27
+Memory (MB): 57.08
+
+Algorithms: DFS
+Path: rrrrrrrulllllLrrrrrrdllllllllluurrDrrrrrrrdllllllLrrrrrrrulllllllurrrrrrrulllllllldldRRRRRRRRlllllllldRRRRRRllllllurrrrrrrrdrUllllllllldrrrrrrRlllllllurrrrrrrrrdLLrrulllllllllurrrrrrrrurDllllllllldrrrrrrrrdlLrrrUlllllllllurrrrrrrrurDDllllllllldrrrrRRllllllurrrrrrrrdLLLLLLL
+Steps: 273
+Total Weight: 2191
+Node: 1613
+Time (ms): 47.45
+Memory (MB): 57.82
+
