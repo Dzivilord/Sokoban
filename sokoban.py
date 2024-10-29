@@ -587,11 +587,6 @@ def astar(path):
                     priority = new_cost + heuristic(newPosPlayer, newPosBox)
                     frontier.push((new_state, new_cost), priority)
                     actions.push(node_action + [action[-1]], priority)
-                elif new_state in cost_so_far and new_cost < cost_so_far[new_state]:
-                    cost_so_far[new_state] = new_cost
-                    priority = new_cost + heuristic(newPosPlayer, newPosBox)
-                    frontier.push((new_state, new_cost), priority)
-                    actions.push(node_action + [action[-1]], priority)
 
 gameState=""
 posWalls=""
