@@ -259,7 +259,7 @@ def bfs(path):
                 # Thêm trạng thái mới vào hàng đợi
                 frontier.append(node + [(newPosPlayer, newPosBox)])
                 actions.append(node_action + [action[-1]])  # Lưu hành động tương ứng
-                # weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
+                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
 
 def dfs(path):
     """Thuật toán tìm kiếm theo chiều sâu"""
