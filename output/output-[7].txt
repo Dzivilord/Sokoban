@@ -1,0 +1,55 @@
+Algorithms: Astar
+Path: ululDrdLLuruurrRRdrruLLLLLLLrrrrrddrdrUUluR
+Steps: 43
+Total Weight: 24
+Node: 671182
+Time (ms): 51633.91
+Memory (MB): 138.84
+Algorithms: UCS
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 42
+Node: 586486
+Time (ms): 44503.16
+Memory (MB): 151.22
+
+Algorithms: A*
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 42
+Node: 103420
+Time (ms): 20850.05
+Memory (MB): 101.30
+
+Algorithms: BFS
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 24
+Node: 520763
+Time (ms): 38292.64
+Memory (MB): 162.25
+
+Algorithms: A*
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 42
+Node: 103420
+Time (ms): 20776.59
+Memory (MB): 115.11
+
+Algorithms: UCS
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 42
+Node: 586486
+Time (ms): 45984.19
+Memory (MB): 151.74
+
+Algorithms: A*
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 24
+Node: 103420
+Time (ms): 20699.07
+Memory (MB): 101.08
+
