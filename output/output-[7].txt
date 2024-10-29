@@ -45,3 +45,11 @@ Node: 586486
 Time (ms): 45984.19
 Memory (MB): 151.74
 
+Algorithms: A*
+Path: uuuRRdrruLdddrUUluRlLLLLLLrdDrdLL
+Steps: 33
+Total Weight: 24
+Node: 103420
+Time (ms): 20699.07
+Memory (MB): 101.08
+

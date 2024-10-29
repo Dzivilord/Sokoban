@@ -535,9 +535,11 @@ def astar(path):
             end_time = time.time()
             elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
             memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
-
+            steps=''.join(node_action[1:])
+            non_push_steps = sum(1 for step in steps if step.islower())
+            pushed_weight=current_cost-non_push_steps
             # In kết quả
-            print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
+            print(f'Steps: {len(node_action[1:])}, Total Weight: {pushed_weight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
             output_path = f'output/output-{case}.txt'
@@ -545,7 +547,7 @@ def astar(path):
                 file.write("Algorithms: A*\n")
                 file.write(f'Path: {''.join(node_action[1:])}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
-                file.write(f'Total Weight: {current_cost}\n')
+                file.write(f'Total Weight: {pushed_weight}\n')
                 file.write(f'Node: {node_count}\n')
                 file.write(f'Time (ms): {elapsed_time:.2f}\n')
                 file.write(f'Memory (MB): {memory_usage:.2f}\n\n')

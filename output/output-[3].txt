@@ -29,3 +29,11 @@ Node: 7124
 Time (ms): 997.68
 Memory (MB): 124.98
 
+Algorithms: A*
+Path: uluurDDuullllllDD
+Steps: 17
+Total Weight: 200
+Node: 7124
+Time (ms): 951.27
+Memory (MB): 62.04
+

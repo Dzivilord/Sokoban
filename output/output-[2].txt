@@ -37,3 +37,11 @@ Node: 19098
 Time (ms): 864.18
 Memory (MB): 124.49
 
+Algorithms: A*
+Path: uluurDDrddrrruuururDD
+Steps: 21
+Total Weight: 200
+Node: 6054
+Time (ms): 788.06
+Memory (MB): 62.11
+

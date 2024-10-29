@@ -224,3 +224,27 @@ Node: 25114
 Time (ms): 1019.67
 Memory (MB): 63.71
 
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 6429.35
+Memory (MB): 64.23
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 416
+Node: 27064
+Time (ms): 2829.43
+Memory (MB): 63.97
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 405
+Node: 27064
+Time (ms): 2823.31
+Memory (MB): 64.14
+
