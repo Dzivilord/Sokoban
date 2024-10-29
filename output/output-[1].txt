@@ -1,0 +1,24 @@
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1528.30
+Memory (MB): 64.85
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1059.25
+Memory (MB): 64.16
+
+Algorithms: DFS
+Path: rrrrrrrulllllLrrrrrrdllllllllluurrDrrrrrrrdllllllLrrrrrrrulllllllurrrrrrrulllllllldldRRRRRRRRlllllllldRRRRRRllllllurrrrrrrrdrUllllllllldrrrrrrRlllllllurrrrrrrrrdLLrrulllllllllurrrrrrrrurDllllllllldrrrrrrrrdlLrrrUlllllllllurrrrrrrrurDDllllllllldrrrrRRllllllurrrrrrrrdLLLLLLL
+Steps: 273
+Total Weight: 2191
+Node: 1613
+Time (ms): 70.62
+Memory (MB): 64.59
+

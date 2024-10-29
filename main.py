@@ -9,14 +9,14 @@ pygame.init()
 pygame.font.init()
 
 # Screen settings
-SCREEN_WIDTH, SCREEN_HEIGHT = 800, 640
+SCREEN_WIDTH, SCREEN_HEIGHT = 901, 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Sokoban-Group14!")
 icon = pygame.image.load('Image/logo.png')
 pygame.display.set_icon(icon)
 
 # Colors
-WHITE, BLACK, BLUE, YELLOW = (255, 255, 255), (0, 0, 0), (0, 0, 255), (255, 255, 0)
+WHITE, BLACK, BLUE, YELLOW,CYAN = (255, 255, 255), (0, 0, 0), (0, 0, 255), (255, 255, 0),(0, 255, 255)
 
 # Load images
 images = {
@@ -27,7 +27,7 @@ images = {
     'space': pygame.image.load('Image/space.png'),
     'arrowLeft': pygame.image.load('Image/left_arrow.png'),
     'arrowRight': pygame.image.load('Image/right_arrow.png'),
-    'background': pygame.image.load('Image/screen.png'),
+    'background': pygame.image.load('Image/background.png'),
     'BFSButton':pygame.image.load('Image/BFS.png'),
     'DFSButton':pygame.image.load('Image/DFS.png'),
     'UCSButton':pygame.image.load('Image/UCS.png'),
@@ -88,8 +88,8 @@ def render_map(board):
                 rock_position = (i, j)  # Position of the rock
                 if rock_position in rocks_weights_dict:
                     weight = rocks_weights_dict[rock_position]
-                    weight_text = font.render(str(weight), True, YELLOW)  # Render weight text
-                    weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 10))  # Position the text above the stone
+                    weight_text = font.render(str(weight), True, CYAN)  # Render weight text
+                    weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 12))  # Position the text above the stone
                     screen.blit(weight_text, weight_rect)  # Draw the weight text
 
             elif cell == '@' or cell== '+' :
@@ -101,29 +101,33 @@ def render_map(board):
 
 def draw_interface():
     """Draw level text, buttons, and other UI elements."""
-    level_text = font.render(f"Level {selected_level + 1}", True, YELLOW)
-    screen.blit(level_text, level_text.get_rect(center=(320, 510)))
+    level_text = font.render(f"Level {selected_level + 1}", True, BLACK)
+    screen.blit(level_text, level_text.get_rect(center=(320, 80)))
     
-    step_text = font.render(f"Steps: {step_count}", True, YELLOW)
-    step_text_rect = step_text.get_rect(center=(590, 50))
+    step_text = font.render(f"Steps: {step_count}", True, BLACK)
+    step_text_rect = step_text.get_rect(center=(740, 160))
     screen.blit(step_text, step_text_rect)
     
-    solution_text = font.render(f"Solution:{instruct_step}", True, YELLOW)
-    solution_text_rect = solution_text.get_rect(center=(275, 430))
-    screen.blit(solution_text, solution_text_rect)
+    text_area = pygame.Rect(130, 430, 350, 90)
+    text_surface = pygame.Surface((text_area.width, text_area.height),pygame.SRCALPHA)
+    solution_text = font.render(f"Hint:{instruct_step}", True, YELLOW)
+
+    text_surface.blit(solution_text, (0, 0))
+    screen.blit(text_surface, text_area.topleft)
     
-    weights_text = font.render(f"Total weights:{total_weights_pushed}", True, YELLOW)
-    weights_text_rect = weights_text.get_rect(center=(590, 80))
+    
+    weights_text = font.render(f"Total weights:{total_weights_pushed}", True, BLACK)
+    weights_text_rect = weights_text.get_rect(center=(740, 200))
     screen.blit(weights_text, weights_text_rect)
     # Draw arrow buttons
-    draw_button(images['arrowLeft'], 90, 480)
-    draw_button(images['arrowRight'], 480, 480)
-    draw_button(images['BFSButton'],630,100)
-    draw_button(images['DFSButton'],630,210)
-    draw_button(images['UCSButton'],630,320)
-    draw_button(images["AStarButton"],630,430)
-    draw_button(images['ResetButton'],50,20)
-    draw_button(images['StopButton'],150,20)
+    draw_button(images['arrowLeft'], 140, 45)
+    draw_button(images['arrowRight'], 400, 45)
+    draw_button(images['BFSButton'],600,215)
+    draw_button(images['DFSButton'],730,215)
+    draw_button(images['UCSButton'],600,320)
+    draw_button(images["AStarButton"],730,320)
+    draw_button(images['ResetButton'],600,5)
+    draw_button(images['StopButton'],720,5)
 
 
 
@@ -276,40 +280,39 @@ def main():
                     move_player(board, "UP")
                 elif event.key == K_DOWN:
                     move_player(board, "DOWN")
-                    
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # Left click
-                    if draw_button(images['arrowLeft'], 90, 480):
+                    if draw_button(images['arrowLeft'], 140, 45):
                         change_level(-1)
-                    elif draw_button(images['arrowRight'], 480, 480):
+                    elif draw_button(images['arrowRight'], 400, 45):
                         change_level(1)
-                    elif draw_button(images["BFSButton"], 630, 100):
+                    elif draw_button(images["BFSButton"], 600, 215):
                         change_level(0)
                         
                         instruct_step=bfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
-                    elif draw_button(images["DFSButton"], 630, 210):
+                    elif draw_button(images["DFSButton"], 730, 215):
                         change_level(0)
                         
                         instruct_step=dfs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step) 
                                          
-                    elif draw_button(images['UCSButton'], 630, 320):
+                    elif draw_button(images['UCSButton'], 600, 320):
                         change_level(0)
                         
                         instruct_step=ucs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
 
-                    elif draw_button(images['AStarButton'], 630, 430):
+                    elif draw_button(images['AStarButton'], 730, 320):
                         change_level(0)
                         
                         instruct_step=astar(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
                         
-                    elif draw_button(images['ResetButton'], 50, 20):
+                    elif draw_button(images['ResetButton'], 600, 5):
                         change_level(0)
-                    elif draw_button(images['StopButton'],150,20):
+                    elif draw_button(images['StopButton'],720,5):
                         stop_move()
                                           
         # Render the updated map
