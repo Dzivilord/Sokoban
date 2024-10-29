@@ -45,3 +45,27 @@ Node: 6054
 Time (ms): 788.06
 Memory (MB): 62.11
 
+Algorithms: A*
+Path: uluurDDrddrrruuururDD
+Steps: 21
+Total Weight: 200
+Node: 6054
+Time (ms): 828.06
+Memory (MB): 62.19
+
+Algorithms: BFS
+Path: uluurDDrddrrruuururDD
+Steps: 21
+Total Weight: 200
+Node: 6518
+Time (ms): 339.48
+Memory (MB): 61.30
+
+Algorithms: A*
+Path: uluurDDrddrrruuururDD
+Steps: 21
+Total Weight: 200
+Node: 6054
+Time (ms): 804.50
+Memory (MB): 62.23
+

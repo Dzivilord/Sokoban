@@ -53,3 +53,27 @@ Node: 6252
 Time (ms): 290.63
 Memory (MB): 61.15
 
+Algorithms: A*
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 9218
+Time (ms): 1149.56
+Memory (MB): 62.15
+
+Algorithms: A*
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 9218
+Time (ms): 1115.37
+Memory (MB): 62.28
+
+Algorithms: BFS
+Path: rrrRRRuuurrdLLLLLLL
+Steps: 19
+Total Weight: 304
+Node: 6252
+Time (ms): 290.80
+Memory (MB): 61.33
+

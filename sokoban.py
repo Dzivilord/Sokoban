@@ -49,7 +49,7 @@ def PosOfBoxes(gameState, weights):
         # Lấy trọng số tương ứng từ weights
         weight = weights[index] if index < len(weights) else 1  # Gán 1 nếu không đủ trọng số
         box_with_weights.append((tuple(map(int, pos)), weight))  # Thêm vị trí và trọng số vào danh sách
-    
+
     # Chuyển đổi danh sách thành tuple
     return tuple(box_with_weights)
 
@@ -85,7 +85,7 @@ def legalActions(posPlayer, posBox):
     """Trả về tất cả các hành động hợp lệ cho người chơi trong trạng thái trò chơi hiện tại"""
     allActions = [[-1, 0, 'u', 'U'], [1, 0, 'd', 'D'], [0, -1, 'l', 'L'], [0, 1, 'r', 'R']]  # Tất cả các hành động có thể
     legalActions = []  # Danh sách chứa các hành động hợp lệ
-    
+
     for dx, dy, move, push in allActions:
         new_pos = (posPlayer[0] + dx, posPlayer[1] + dy)  # Vị trí mới của người chơi
         if new_pos in posBox:
@@ -124,32 +124,32 @@ def isFailed(posBox):
         [0, 1, 2, 3, 4, 5, 6, 7, 8][::-1],
         [2, 5, 8, 1, 4, 7, 0, 3, 6][::-1]
     ]
-    
+
     flipPattern = [
         [2, 1, 0, 5, 4, 3, 8, 7, 6],
         [0, 3, 6, 1, 4, 7, 2, 5, 8],
         [2, 1, 0, 5, 4, 3, 8, 7, 6][::-1],
         [0, 3, 6, 1, 4, 7, 2, 5, 8][::-1]
     ]
-    
+
     allPatterns = rotatePattern + flipPattern
 
     for box in posBox:
         if box not in posGoals:  # Nếu hộp không nằm trên mục tiêu
             # Tạo danh sách các vị trí xung quanh hộp
-            board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1), 
-                     (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1), 
+            board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1),
+                     (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1),
                      (box[0] + 1, box[1] - 1), (box[0] + 1, box[1]), (box[0] + 1, box[1] + 1)]
-                     
+
             for pattern in allPatterns:
                 newBoard = [board[i] for i in pattern]
-                
+
                 # Kiểm tra các điều kiện thất bại
                 if ((newBoard[1] in posWalls and newBoard[5] in posWalls) |
                    (newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posWalls) |
                    (newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posBox) |
                    (newBoard[1] in posBox and newBoard[2] in posBox and newBoard[5] in posBox) |
-                   (newBoard[1] in posBox and newBoard[6] in posBox and 
+                   (newBoard[1] in posBox and newBoard[6] in posBox and
                     newBoard[2] in posWalls and newBoard[3] in posWalls and newBoard[8] in posWalls)):
                     return True
     return False
@@ -171,7 +171,7 @@ def bfs(path):
     beginBox = PosOfBoxes(gameState, weightList)
     checkPointBox = list(beginBox)  # Chuyển đổi thành danh sách để có thể sửa đổi
 
-    beginPlayer = PosOfPlayer(gameState)  
+    beginPlayer = PosOfPlayer(gameState)
 
     # Danh sách để lưu trữ các vị trí
     positions = [item[0] for item in beginBox]  # Sử dụng list comprehension
@@ -183,12 +183,12 @@ def bfs(path):
     startState = (beginPlayer, positions)
 
     # Khởi tạo hàng đợi cho trạng thái và hành động
-    frontier = collections.deque([[startState]])  
-    actions = collections.deque([[0]])  
+    frontier = collections.deque([[startState]])
+    actions = collections.deque([[0]])
 
     # Tập hợp trạng thái đã khám phá và biến đếm số nút đã truy cập
-    exploredSet = set()  
-    node_count = 0  
+    exploredSet = set()
+    node_count = 0
 
     while frontier:  # Khi còn trạng thái trong hàng đợi
         node = frontier.popleft()  # Lấy trạng thái hiện tại
@@ -198,7 +198,7 @@ def bfs(path):
         # Kiểm tra nếu trạng thái hiện tại là trạng thái kết thúc
         if isEndState(node[-1][-1]):
             print(''.join(node_action[1:]))  # In hành động đã thực hiện
-            
+
             tmpFirst = 0
             tmpSecond = 0
             totalWeight = 0
@@ -206,7 +206,7 @@ def bfs(path):
             for item in node:
                 # Danh sách để lưu trữ các vị trí
                 positionCheck = [item[0] for item in checkPointBox]  # Sử dụng list comprehension
-                
+
                 # Tìm tmpFirst
                 for index, weight in checkPointBox:
                     if index not in item[1]:
@@ -247,19 +247,19 @@ def bfs(path):
         # Nếu trạng thái hiện tại chưa được khám phá
         if node[-1] not in exploredSet:
             exploredSet.add(node[-1])  # Thêm vào tập đã thăm
-            
+
             # Lấy tất cả hành động hợp lệ từ trạng thái hiện tại
             for action in legalActions(node[-1][0], node[-1][1]): #Người, Box
                 newPosPlayer, newPosBox = updateState(node[-1][0], node[-1][1], action)  # Cập nhật vị trí mới
 
                 # Kiểm tra tính hợp lệ của vị trí hộp mới
-                if isFailed(newPosBox):  
+                if isFailed(newPosBox):
                     continue  # Nếu không hợp lệ, bỏ qua
 
                 # Thêm trạng thái mới vào hàng đợi
-                frontier.append(node + [(newPosPlayer, newPosBox)])  
+                frontier.append(node + [(newPosPlayer, newPosBox)])
                 actions.append(node_action + [action[-1]])  # Lưu hành động tương ứng
-                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển 
+                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
 
 def dfs(path):
     """Thuật toán tìm kiếm theo chiều sâu"""
@@ -274,7 +274,7 @@ def dfs(path):
     beginBox = PosOfBoxes(gameState, weightList)
     checkPointBox = list(beginBox)  # Chuyển đổi thành danh sách để có thể sửa đổi
 
-    beginPlayer = PosOfPlayer(gameState)  
+    beginPlayer = PosOfPlayer(gameState)
 
     # Danh sách để lưu trữ các vị trí
     positions = [item[0] for item in beginBox]  # Sử dụng list comprehension
@@ -285,11 +285,11 @@ def dfs(path):
     # Trạng thái bắt đầu
     startState = (beginPlayer, positions)
     # Khởi tạo ngăn xếp cho trạng thái và hành động
-    frontier = collections.deque([[startState]])  
-    actions = collections.deque([[0]])  
+    frontier = collections.deque([[startState]])
+    actions = collections.deque([[0]])
     # Tập hợp trạng thái đã khám phá và biến đếm số nút đã truy cập
-    exploredSet = set()  
-    node_count = 0  
+    exploredSet = set()
+    node_count = 0
 
     while frontier:  # Khi còn trạng thái trong ngăn xếp
         node = frontier.pop()  # Lấy trạng thái hiện tại
@@ -307,7 +307,7 @@ def dfs(path):
             for item in node:
                 # Danh sách để lưu trữ các vị trí
                 positionCheck = [item[0] for item in checkPointBox]  # Sử dụng list comprehension
-                
+
                 # Tìm tmpFirst
                 for index, weight in checkPointBox:
                     if index not in item[1]:
@@ -348,19 +348,19 @@ def dfs(path):
         # Nếu trạng thái hiện tại chưa được khám phá
         if node[-1] not in exploredSet:
             exploredSet.add(node[-1])  # Thêm vào tập đã thăm
-            
+
             # Lấy tất cả hành động hợp lệ từ trạng thái hiện tại
             for action in legalActions(node[-1][0], node[-1][1]): #Người, Box
                 newPosPlayer, newPosBox = updateState(node[-1][0], node[-1][1], action)  # Cập nhật vị trí mới
 
                 # Kiểm tra tính hợp lệ của vị trí hộp mới
-                if isFailed(newPosBox):  
+                if isFailed(newPosBox):
                     continue  # Nếu không hợp lệ, bỏ qua
 
                 # Thêm trạng thái mới vào ngăn xếp
-                frontier.append(node + [(newPosPlayer, newPosBox)])  
+                frontier.append(node + [(newPosPlayer, newPosBox)])
                 actions.append(node_action + [action[-1]])  # Lưu hành động tương ứng
-                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển 
+                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
 
 class PriorityQueue:
     """Define a PriorityQueue data structure that will be used"""
@@ -392,7 +392,7 @@ def cost(action, currentBoxPos, newBoxPos):
             if positions[index] != newBoxPos[index]:
                 return index # trả về index của hộp bị đẩy
         return 1 + currentBoxPos[index][1]  # Trả về weight của hộp bị đẩy
-    
+
 def ucs(path):
     """Implement uniformCostSearch approach"""
     number = re.findall(r'\d+', path)
@@ -448,7 +448,7 @@ def ucs(path):
         # Nếu trạng thái chưa được khám phá
         if (currentPlayerPos, currentBoxPos) not in exploredSet:
             exploredSet.add((currentPlayerPos, currentBoxPos))
-            
+
             # Duyệt qua các hành động hợp lệ từ trạng thái hiện tại
             for action in legalActions(currentPlayerPos, currentBoxPos):  # currentPlayerPos là vị trí người chơi, currentBoxPos là các hộp
                 newPosPlayer, newPosBox = updateState(currentPlayerPos, currentBoxPos, action)
@@ -456,7 +456,7 @@ def ucs(path):
                 # Bỏ qua trạng thái không hợp lệ
                 if isFailed(newPosBox):
                     continue
-                    
+
                 # Tính toán chi phí mới
                 # Xác định hộp nào đang được đẩy để thêm trọng số của nó vào new_cost
                 if action[-1].isupper():  # Nếu hành động là đẩy
@@ -476,7 +476,7 @@ def ucs(path):
                 # Thêm trạng thái mới và chi phí vào hàng đợi
                 frontier.push(((newPosPlayer, newPosBox), new_cost), new_cost)
                 actions.push(node_action + [action[-1]], new_cost)
-                    
+
 def parse_file(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
@@ -498,6 +498,7 @@ def heuristic(posPlayer, posBox):
                 min_distance = distance
         total_distance += min_distance
     return total_distance
+
 def astar(path):
     """Implement A* search approach with optimization to push only when current cost is less than previous cost"""
     number = re.findall(r'\d+', path)
@@ -535,9 +536,9 @@ def astar(path):
             end_time = time.time()
             elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
             memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
-            steps=''.join(node_action[1:])
+            steps = ''.join(node_action[1:])
             non_push_steps = sum(1 for step in steps if step.islower())
-            pushed_weight=current_cost-non_push_steps
+            pushed_weight = current_cost - non_push_steps
             # In kết quả
             print(f'Steps: {len(node_action[1:])}, Total Weight: {pushed_weight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
@@ -545,18 +546,18 @@ def astar(path):
             output_path = f'output/output-{case}.txt'
             with open(output_path, 'a') as file:
                 file.write("Algorithms: A*\n")
-                file.write(f'Path: {''.join(node_action[1:])}\n')
+                file.write(f'Path: {steps}\n')
                 file.write(f'Steps: {len(node_action[1:])}\n')
                 file.write(f'Total Weight: {pushed_weight}\n')
                 file.write(f'Node: {node_count}\n')
                 file.write(f'Time (ms): {elapsed_time:.2f}\n')
                 file.write(f'Memory (MB): {memory_usage:.2f}\n\n')
-            return ''.join(node_action[1:])  # Trả về chuỗi hành động đã thực hiện
+            return steps  # Trả về chuỗi hành động đã thực hiện
 
         # Nếu trạng thái chưa được khám phá
         if (currentPlayerPos, currentBoxPos) not in exploredSet:
             exploredSet.add((currentPlayerPos, currentBoxPos))
-            
+
             # Duyệt qua các hành động hợp lệ từ trạng thái hiện tại
             for action in legalActions(currentPlayerPos, currentBoxPos):  # currentPlayerPos là vị trí người chơi, currentBoxPos là các hộp
                 newPosPlayer, newPosBox = updateState(currentPlayerPos, currentBoxPos, action)
@@ -564,7 +565,7 @@ def astar(path):
                 # Bỏ qua trạng thái không hợp lệ
                 if isFailed(newPosBox):
                     continue
-                    
+
                 # Tính toán chi phí mới
                 if action[-1].isupper():  # Nếu hành động là đẩy
                     pushed_box_index = None
@@ -586,7 +587,11 @@ def astar(path):
                     priority = new_cost + heuristic(newPosPlayer, newPosBox)
                     frontier.push((new_state, new_cost), priority)
                     actions.push(node_action + [action[-1]], priority)
-
+                elif new_state in cost_so_far and new_cost < cost_so_far[new_state]:
+                    cost_so_far[new_state] = new_cost
+                    priority = new_cost + heuristic(newPosPlayer, newPosBox)
+                    frontier.push((new_state, new_cost), priority)
+                    actions.push(node_action + [action[-1]], priority)
 
 gameState=""
 posWalls=""
@@ -597,5 +602,5 @@ def Setup(path):
     gameState = transferToGameState(layout)
     posWalls = PosOfWalls(gameState)
     posGoals = PosOfGoals(gameState)
-    
+
 

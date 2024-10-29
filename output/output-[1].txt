@@ -248,3 +248,35 @@ Node: 27064
 Time (ms): 2823.31
 Memory (MB): 64.14
 
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 405
+Node: 27064
+Time (ms): 3117.80
+Memory (MB): 64.23
+
+Algorithms: BFS
+Path: uLulDrrRRRRRRurD
+Steps: 16
+Total Weight: 695
+Node: 25114
+Time (ms): 1036.20
+Memory (MB): 63.67
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 405
+Node: 27064
+Time (ms): 2867.48
+Memory (MB): 64.16
+
+Algorithms: A*
+Path: lluRurrDrdLLLuRRRRRRRurD
+Steps: 24
+Total Weight: 405
+Node: 27064
+Time (ms): 2929.21
+Memory (MB): 64.32
+
