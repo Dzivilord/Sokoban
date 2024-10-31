@@ -37,6 +37,9 @@ def ucs(path):
             end_time = time.time()
             elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
             memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
+            steps = ''.join(node_action[1:])
+            count_steps = sum(1 for step in steps)
+            pushed_weight = current_cost - count_steps
 
             # In kết quả
             print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
@@ -46,7 +49,7 @@ def ucs(path):
             with open(output_path, 'a') as file:
                 file.write("Algorithms: UCS\n")
                 file.write(f'Steps: {len(node_action[1:])}, ')
-                file.write(f'Total Weight: {current_cost}, ')
+                file.write(f'Total Weight: {pushed_weight}, ')
                 file.write(f'Node: {node_count}, ')
                 file.write(f'Time (ms): {elapsed_time:.2f}, ')
                 file.write(f'Memory (MB): {memory_usage:.2f}\n')
@@ -75,7 +78,7 @@ def ucs(path):
                             pushed_Stone_index = index
                             break
                     if pushed_Stone_index is not None:
-                        new_cost = current_cost + weightList[pushed_Stone_index]
+                        new_cost = current_cost + weightList[pushed_Stone_index]+1
                     else:
                         new_cost = current_cost + 1  # Trường hợp không tìm thấy hộp bị đẩy
                 else:
