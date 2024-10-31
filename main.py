@@ -3,7 +3,11 @@ import pygame
 from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
 from time import sleep
 import threading
-from sokoban import bfs, dfs, ucs,astar
+from BFS import bfs
+from DFS import dfs
+from UCS import ucs
+from AStar import astar
+
 # Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -49,26 +53,26 @@ instruct_step=""
 
 # Position variables
 player_x, player_y = 0, 0  
-check_point_list, rocks_point_list = [], []
+check_point_list, stones_point_list = [], []
 
-rocks_weights=[]
+stones_weights=[]
 total_weights_pushed=0
 
 
 
 def read_map(file_path):
-    global rocks_weights
-    """Load map data from a file and return as a 2D list along with rock weights."""
+    global stones_weights
+    """Load map data from a file and return as a 2D list along with stone weights."""
     with open(file_path, 'r') as file:
         lines = file.readlines()
         
         # Hàng đầu tiên chứa khối lượng các viên đá
-        rocks_weights = list(map(int, lines[0].strip().split()))  # Lấy các giá trị khối lượng và chuyển thành số nguyên
+        stones_weights = list(map(int, lines[0].strip().split()))  # Lấy các giá trị khối lượng và chuyển thành số nguyên
         # Các hàng sau chứa bản đồ
         return [list(line.strip()) for line in lines[1:]]
         
-rocks_weights_dict={}
-
+stones_weights_dict={}
+MOVE_SPEED = 4
 def render_map(board):
     """Render the map and interface elements on the screen."""
     screen.blit(images['background'], (0, 0))  # Background
@@ -85,9 +89,9 @@ def render_map(board):
                 screen.blit(images['checkPoint'], pos)
             elif cell == '$' or cell=="*":
                 screen.blit(images['stone'], pos)
-                rock_position = (i, j)  # Position of the rock
-                if rock_position in rocks_weights_dict:
-                    weight = rocks_weights_dict[rock_position]
+                stone_position = (i, j)  # Position of the stone
+                if stone_position in stones_weights_dict:
+                    weight = stones_weights_dict[stone_position]
                     weight_text = font.render(str(weight), True, CYAN)  # Render weight text
                     weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 12))  # Position the text above the stone
                     screen.blit(weight_text, weight_rect)  # Draw the weight text
@@ -145,27 +149,27 @@ def find_positions(board, item):
 def change_level(direction):
     """Change level based on direction and reset board."""
    
-    global selected_level, board, player_x, player_y, check_point_list, rocks_point_list,step_count,rocks_weights,total_weights_pushed,rocks_weights_dict
+    global selected_level, board, player_x, player_y, check_point_list, stones_point_list,step_count,stones_weights,total_weights_pushed,stones_weights_dict
 
     
     selected_level = (selected_level + direction) % len(map_file_paths)
     
-    rocks_weights=[]
+    stones_weights=[]
     board = read_map(map_file_paths[selected_level])
-    check_point_list, rocks_point_list = find_positions(board, ('.','+','*')), find_positions(board, ('$','*'))
+    check_point_list, stones_point_list = find_positions(board, ('.','+','*')), find_positions(board, ('$','*'))
     player_x, player_y = find_positions(board, ('@','+'))[0]
     step_count = 0
     total_weights_pushed=0
-    rocks_weights_dict={}
+    stones_weights_dict={}
     
-    for index, rocks in enumerate(rocks_point_list):
-        rocks_weights_dict[rocks] = rocks_weights[index]
+    for index, stones in enumerate(stones_point_list):
+        stones_weights_dict[stones] = stones_weights[index]
     
-    #print(rocks_weights_dict)
+    #print(stones_weights_dict)
 
 def move_player(board, direction):
     """Move the player in the specified direction, handling stone movement and checking win condition."""
-    global player_x, player_y, step_count, rocks_weights_dict, rocks_point_list, total_weights_pushed
+    global player_x, player_y, step_count, stones_weights_dict, stones_point_list, total_weights_pushed
 
     dx, dy = {'LEFT': (0, -1), 'RIGHT': (0, 1), 'UP': (-1, 0), 'DOWN': (1, 0)}[direction]
     new_x, new_y = player_x + dx, player_y + dy
@@ -188,7 +192,7 @@ def move_player(board, direction):
             new_stone_position = (stone_new_x, stone_new_y)  # Vị trí mới của viên đá
 
             # Lấy khối lượng của viên đá
-            weight = rocks_weights_dict.get(old_stone_position)
+            weight = stones_weights_dict.get(old_stone_position)
 
             # Đẩy viên đá
             board[stone_new_x][stone_new_y], board[new_x][new_y] = '$', '@'
@@ -204,26 +208,26 @@ def move_player(board, direction):
             #print(old_stone_position)
 
             # Cập nhật từ điển với vị trí mới
-            #print (rocks_weights_dict)
-            if old_stone_position in rocks_weights_dict:
+            #print (stones_weights_dict)
+            if old_stone_position in stones_weights_dict:
                 # Gán khối lượng vào vị trí mới
-                rocks_weights_dict[new_stone_position] = weight
+                stones_weights_dict[new_stone_position] = weight
 
-                del rocks_weights_dict[old_stone_position]  # Xóa vị trí cũ của viên đá
+                del stones_weights_dict[old_stone_position]  # Xóa vị trí cũ của viên đá
 
                 # Cập nhật tổng khối lượng đã đẩy
                 total_weights_pushed += weight
-                #print(f"Updated weight for rock at {new_stone_position}: {weight}")
+                #print(f"Updated weight for stone at {new_stone_position}: {weight}")
                 #print(f"Total weight pushed: {total_weights_pushed}")
     for point in check_point_list:
         if board[point[0]][point[1]] != '@' and board[point[0]][point[1]] != "$" and board[point[0]][point[1]] != "+"and board[point[0]][point[1]] != "*":
             board[point[0]][point[1]] = "."
 
     # Kiểm tra xem trò chơi đã hoàn thành chưa
-    check_for_completion(board)
+    check_completion(board)
+    
 
-
-def check_for_completion(board):
+def check_completion(board):
     """Check if all checkpoints are filled by stones to trigger a win."""
     if all(board[x][y] == '$' for x, y in check_point_list):
         print("Level Complete!")
@@ -263,7 +267,7 @@ def start_move_on_instruct(steps):
 
 def main():
     global board,instruct_step
-    board = read_map(map_file_paths[selected_level])
+    #board = read_map(map_file_paths[selected_level])
     change_level(0)  # Load initial level
 
     running = True

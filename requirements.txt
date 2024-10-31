@@ -1,0 +1,17 @@
+# Các thư viện cần cho file main.py
+import os
+import pygame
+from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
+from time import sleep
+import threading
+
+# Các thư viện cần cho file sokoban.py
+import sys
+import os
+import collections
+import numpy as np
+import time
+import psutil
+import heapq
+import re
+import math
