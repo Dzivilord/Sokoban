@@ -8,6 +8,7 @@ from DFS import dfs
 from UCS import ucs
 from AStar import astar
 
+
 # Initialize pygame
 pygame.init()
 pygame.font.init()

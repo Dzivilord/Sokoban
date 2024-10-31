@@ -1,0 +1,16 @@
+Algorithms: BFS
+Steps: 25, Total Weight: 36, Node: 313678,Time (ms): 30101.98, Memory (MB): 199.86
+Path: ulUUluRRRurDrrrrDDDrruLLL
+
+Algorithms: DFS
+Steps: , Total Weight: , Node: ,Time (ms): , Memory (MB): 
+Path: INFEASIBLE
+
+Algorithms: UCS
+Steps: 25, Total Weight: 36, Node: 1191680, Time (ms): 243360.66, Memory (MB): 526.47
+Path: ulUUluRRRurDrrrrDDDrruLLL
+
+Algorithms: A*
+Steps: 25, Total Weight: 36, Node: 490880, Time (ms): 102871.00, Memory (MB): 269.86
+Path: ulUUluRRRurDrrrrDDDrruLLL
+
