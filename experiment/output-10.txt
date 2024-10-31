@@ -1,0 +1,16 @@
+Algorithms: BFS
+Steps: 36, Total Weight: 90, Node: 131090,Time (ms): 6621.83, Memory (MB): 86.61
+Path: uuulllldddRRurDldRRRddrrruuuLLLLLdlU
+
+Algorithms: DFS
+Steps: 308, Total Weight: 160, Node: 57038,Time (ms): 3749.03, Memory (MB): 81.24
+Path: rrRlllllLrrrrrdllldrrdrrrruluruLrdldrdlllllllllluruluRRRRRRlllllldrdldrrrrrrrrrrulurulurulullllldrrdrDRlllllllldrdldrrrrrrrrrruluruLLLrrrdldrdllllllllllurulurrrrrdrUruLrdrrrdldrdllllllllllurulurrrrrUrrdrrrdldrdllllllllllurulurrrruuurrdLrdrdrrrdldrdllllllllllurulurulururrrDrrdrdrrrdldrdllllllllllurulurrrrruL
+
+Algorithms: UCS
+Steps: 44, Total Weight: 30, Node: 17637, Time (ms): 2401.31, Memory (MB): 75.85
+Path: uuurrrrdddLruuulllllllldddRldddrrruulUrurrrD
+
+Algorithms: A*
+Steps: 44, Total Weight: 30, Node: 12433, Time (ms): 1775.37, Memory (MB): 76.30
+Path: uuurrrrdddLruuulllllllldddRldddrrruulUrurrrD
+
