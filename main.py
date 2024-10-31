@@ -250,8 +250,8 @@ def moveOnInstruct(steps):
             move_player(board,"UP")
         elif step=='d':
             move_player(board,"DOWN")
-        render_map(board) 
-        pygame.display.flip()  
+
+ 
         sleep(0.5)
 def start_move_on_instruct(steps):
     global stop_moving
@@ -300,7 +300,6 @@ def main():
                                          
                     elif draw_button(images['UCSButton'], 600, 320):
                         change_level(0)
-                        
                         instruct_step=ucs(map_file_paths[selected_level])
                         start_move_on_instruct(instruct_step)
 
