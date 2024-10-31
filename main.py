@@ -12,7 +12,7 @@ pygame.font.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 901, 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Sokoban-Group14!")
-icon = pygame.image.load('Image/logo.png')
+icon = pygame.image.load('image/logo.png')
 pygame.display.set_icon(icon)
 
 # Colors
@@ -20,20 +20,20 @@ WHITE, BLACK, BLUE, YELLOW,CYAN = (255, 255, 255), (0, 0, 0), (0, 0, 255), (255,
 
 # Load images
 images = {
-    'player': pygame.image.load('Image/player.png'),
-    'wall': pygame.image.load('Image/wall.png'),
-    'stone': pygame.image.load('Image/rock.png'),
-    'checkPoint': pygame.image.load('Image/check_point.png'),
-    'space': pygame.image.load('Image/space.png'),
-    'arrowLeft': pygame.image.load('Image/left_arrow.png'),
-    'arrowRight': pygame.image.load('Image/right_arrow.png'),
-    'background': pygame.image.load('Image/background.png'),
-    'BFSButton':pygame.image.load('Image/BFS.png'),
-    'DFSButton':pygame.image.load('Image/DFS.png'),
-    'UCSButton':pygame.image.load('Image/UCS.png'),
-    'AStarButton':pygame.image.load('Image/AStar.png'),
-    'ResetButton':pygame.image.load('Image/reset.png'),
-    'StopButton':pygame.image.load('Image/stop.png')
+    'player': pygame.image.load('image/player.png'),
+    'wall': pygame.image.load('image/wall.png'),
+    'stone': pygame.image.load('image/rock.png'),
+    'checkPoint': pygame.image.load('image/check_point.png'),
+    'space': pygame.image.load('image/space.png'),
+    'arrowLeft': pygame.image.load('image/left_arrow.png'),
+    'arrowRight': pygame.image.load('image/right_arrow.png'),
+    'background': pygame.image.load('image/background.png'),
+    'BFSButton':pygame.image.load('image/BFS.png'),
+    'DFSButton':pygame.image.load('image/DFS.png'),
+    'UCSButton':pygame.image.load('image/UCS.png'),
+    'AStarButton':pygame.image.load('image/AStar.png'),
+    'ResetButton':pygame.image.load('image/reset.png'),
+    'StopButton':pygame.image.load('image/stop.png')
     
 }
 
