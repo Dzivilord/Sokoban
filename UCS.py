@@ -7,6 +7,7 @@ def ucs(path):
     time_start = time.time()  # Thời gian bắt đầu
     Setup(path)
     weightList, layout = parse_file(path)
+    gameState = transferToGameState(layout)
 
     # Vị trí bắt đầu của người chơi và các hộp
     beginStone = PosOfStones(gameState, weightList)
@@ -38,11 +39,11 @@ def ucs(path):
             elapsed_time = (end_time - time_start) * 1000  # Thời gian tính bằng mili giây
             memory_usage = psutil.Process(os.getpid()).memory_info().rss / (1024 * 1024)  # Bộ nhớ tính bằng MB
             steps = ''.join(node_action[1:])
-            count_steps = sum(1 for step in steps)
+            count_steps = len(steps)
             pushed_weight = current_cost - count_steps
 
             # In kết quả
-            print(f'Steps: {len(node_action[1:])}, Total Weight: {current_cost}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
+            print(f'Steps: {len(node_action[1:])}, Total Weight: {pushed_weight}, Node: {node_count}, Time (ms): {elapsed_time:.2f}, Memory (MB): {memory_usage:.2f}')
 
             # Ghi kết quả vào file
             output_path = f'output/output-{str(case[0]).zfill(2)}.txt'

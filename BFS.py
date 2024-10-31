@@ -10,6 +10,8 @@ def bfs(path):
     time_start = time.time()
     weightList, layout = parse_file(path)
 
+    gameState = transferToGameState(layout)
+    
     # Vị trí bắt đầu của người chơi và các hộp
     beginStone = PosOfStones(gameState, weightList)
     checkPointStone = list(beginStone)  # Chuyển đổi thành danh sách để có thể sửa đổi
@@ -102,4 +104,4 @@ def bfs(path):
                 # Thêm trạng thái mới vào hàng đợi
                 frontier.append(node + [(newPosPlayer, newPosStone)])
                 actions.append(node_action + [action[-1]])  # Lưu hành động tương ứng
-                weights.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
+                weightList.append(0)  # Cập nhật khối lượng mới khi hộp được di chuyển
