@@ -114,7 +114,7 @@ def draw_interface():
     
     text_area = pygame.Rect(130, 430, 350, 90)
     text_surface = pygame.Surface((text_area.width, text_area.height),pygame.SRCALPHA)
-    solution_text = font.render(f"Hint:{instruct_step}", True, YELLOW)
+    solution_text = font.render(f"Hint: {instruct_step}", True, YELLOW)
 
     text_surface.blit(solution_text, (0, 0))
     screen.blit(text_surface, text_area.topleft)
@@ -294,23 +294,27 @@ def main():
                         change_level(0)
                         
                         instruct_step=bfs(map_file_paths[selected_level])
+                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images["DFSButton"], 730, 215):
                         change_level(0)
                         
                         instruct_step=dfs(map_file_paths[selected_level])
+                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
                         start_move_on_instruct(instruct_step) 
                                          
                     elif draw_button(images['UCSButton'], 600, 320):
                         change_level(0)
                         instruct_step=ucs(map_file_paths[selected_level])
+                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
                         start_move_on_instruct(instruct_step)
 
                     elif draw_button(images['AStarButton'], 730, 320):
                         change_level(0)
                         
                         instruct_step=astar(map_file_paths[selected_level])
+                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images['ResetButton'], 600, 5):
