@@ -112,14 +112,15 @@ def draw_interface():
     step_text_rect = step_text.get_rect(center=(740, 160))
     screen.blit(step_text, step_text_rect)
     
-    text_area = pygame.Rect(130, 430, 350, 90)
-    text_surface = pygame.Surface((text_area.width, text_area.height),pygame.SRCALPHA)
-    solution_text = font.render(f"Hint: {instruct_step}", True, YELLOW)
-
-    text_surface.blit(solution_text, (0, 0))
-    screen.blit(text_surface, text_area.topleft)
-    
-    
+    for i in range(0, len(instruct_step), 25):
+        chunk = instruct_step[i:i + 25]
+        text_area = pygame.Rect(130, 430 + 20 * (i // 25), 350, 30)  # Thay đổi y dựa trên chunk
+        text_surface = pygame.Surface((text_area.width, text_area.height), pygame.SRCALPHA)
+        # Render văn bản
+        solution_text = font.render(f"{chunk}", True, YELLOW)
+        text_surface.blit(solution_text, (0, 0))  # Vẽ văn bản lên text_surface
+        screen.blit(text_surface, text_area.topleft)  # Vẽ text_surface lên màn hình
+        
     weights_text = font.render(f"Total weights:{total_weights_pushed}", True, BLACK)
     weights_text_rect = weights_text.get_rect(center=(740, 200))
     screen.blit(weights_text, weights_text_rect)
@@ -132,8 +133,6 @@ def draw_interface():
     draw_button(images["AStarButton"],730,320)
     draw_button(images['ResetButton'],600,5)
     draw_button(images['StopButton'],720,5)
-
-
 
 def draw_button(image, x, y):
     """Draw an interactive button on the screen."""
@@ -294,27 +293,26 @@ def main():
                         change_level(0)
                         
                         instruct_step=bfs(map_file_paths[selected_level])
-                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
+                        instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images["DFSButton"], 730, 215):
                         change_level(0)
                         
                         instruct_step=dfs(map_file_paths[selected_level])
-                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
+                        instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
                         start_move_on_instruct(instruct_step) 
                                          
                     elif draw_button(images['UCSButton'], 600, 320):
                         change_level(0)
                         instruct_step=ucs(map_file_paths[selected_level])
-                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
+                        instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
                         start_move_on_instruct(instruct_step)
 
                     elif draw_button(images['AStarButton'], 730, 320):
                         change_level(0)
-                        
                         instruct_step=astar(map_file_paths[selected_level])
-                        instruct_step=instruct_step[:30] + "..." if len(instruct_step) > 30 else instruct_step
+                        instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
                         start_move_on_instruct(instruct_step)
                         
                     elif draw_button(images['ResetButton'], 600, 5):
