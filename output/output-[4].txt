@@ -1,8 +1,0 @@
-Algorithms: BFS
-Path: rrrRRRuuurrdLLLLLLL
-Steps: 19
-Total Weight: 304
-Node: 6252
-Time (ms): 361.82
-Memory (MB): 58.69
-
