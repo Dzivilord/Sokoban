@@ -1,17 +1,16 @@
 # Các thư viện cần cho file main.py
-import os
-import pygame
-from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN
-from time import sleep
-import threading
+import os: Thư viện cung cấp các hàm để tương tác với hệ điều hành, cho phép bạn làm việc với file và thư mục.
+import pygame: Thư viện sử dụng để phát triển game, cung cấp các công cụ để xử lý đồ họa, âm thanh và nhập liệu.
+from pygame.constants import KEYDOWN, K_LEFT, K_RIGHT, K_UP, K_DOWN: Nhập các hằng số từ Pygame để xử lý sự kiện bàn phím
+from time import sleep: sleep được sử dụng để tạm dừng chương trình trong một khoảng thời gian nhất định.
+import threading: Thư viện hỗ trợ lập trình đa luồng, cho phép chạy nhiều luồng song song trong chương trình.
 
 # Các thư viện cần cho file sokoban.py
-import sys
+
 import os
-import collections
-import numpy as np
+import collections: Cung cấp các kiểu dữ liệu bổ sung cho Python, như deque, Counter, defaultdict
+import numpy as np: Thư viện cho tính toán số học mạnh mẽ với mảng N-D, thường được sử dụng trong các phép toán ma trận
 import time
-import psutil
-import heapq
-import re
-import math
+import psutil: Thư viện giúp theo dõi và quản lý thông tin về hệ thống, như thông tin CPU, bộ nhớ, và tiến trình.
+import heapq: Cung cấp các hàm để làm việc với cấu trúc dữ liệu heap
+import re: Thư viện để xử lý biểu thức chính quy, giúp tìm kiếm và thao tác với chuỗi theo các mẫu nhất định.

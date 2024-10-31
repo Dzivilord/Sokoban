@@ -293,27 +293,31 @@ def main():
                         change_level(0)
                         
                         instruct_step=bfs(map_file_paths[selected_level])
+                        instruct=instruct_step
                         instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
-                        start_move_on_instruct(instruct_step)
+                        start_move_on_instruct(instruct)
                         
                     elif draw_button(images["DFSButton"], 730, 215):
                         change_level(0)
                         
                         instruct_step=dfs(map_file_paths[selected_level])
+                        instruct=instruct_step
                         instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
-                        start_move_on_instruct(instruct_step) 
+                        start_move_on_instruct(instruct)
                                          
                     elif draw_button(images['UCSButton'], 600, 320):
                         change_level(0)
                         instruct_step=ucs(map_file_paths[selected_level])
+                        instruct=instruct_step
                         instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
-                        start_move_on_instruct(instruct_step)
+                        start_move_on_instruct(instruct)
 
                     elif draw_button(images['AStarButton'], 730, 320):
                         change_level(0)
                         instruct_step=astar(map_file_paths[selected_level])
+                        instruct=instruct_step
                         instruct_step=instruct_step[:100] + "..." if len(instruct_step) > 100 else instruct_step
-                        start_move_on_instruct(instruct_step)
+                        start_move_on_instruct(instruct)
                         
                     elif draw_button(images['ResetButton'], 600, 5):
                         change_level(0)
