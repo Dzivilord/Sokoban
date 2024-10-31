@@ -80,7 +80,7 @@ def dfs(path):
                 file.write("Algorithms: DFS\n")
                 file.write( f'Steps: {len(node_action[1:])}, ') 
                 file.write(f'Total Weight: {totalWeight}, ')
-                file.write(f'Node: {node_count},')
+                file.write(f'Node: {node_count}, ')
                 file.write(f'Time (ms): {elapsed_time:.2f}, ')
                 file.write(f'Memory (MB): {memory_usage:.2f}\n')
                 file.write(f'Path: {''.join(node_action[1:])}\n\n')
