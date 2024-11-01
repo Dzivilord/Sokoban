@@ -3,8 +3,7 @@ import time
 import psutil
 import os
 
-
-from sokoban import *
+from supportFunction import *
 
 def ucs(path):
     """Implement uniformCostSearch approach with optimization"""

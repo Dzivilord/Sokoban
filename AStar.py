@@ -3,7 +3,20 @@ import time
 import psutil
 import os
 
-from sokoban import *
+from supportFunction import *
+
+def heuristic(posPlayer, posStone):
+    """Heuristic function for A* search"""
+    # Tính tổng khoảng cách Manhattan từ mỗi hộp đến mục tiêu gần nhất
+    total_distance = 0
+    for Stone in posStone:
+        min_distance = float('inf')
+        for goal in posGoals:
+            distance = abs(Stone[0] - goal[0]) + abs(Stone[1] - goal[1])
+            if distance < min_distance:
+                min_distance = distance
+        total_distance += min_distance
+    return total_distance
 
 def astar(path):
     """Implement A* search approach with optimization to push only when current cost is less than previous cost"""

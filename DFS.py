@@ -4,8 +4,7 @@ import time
 import psutil
 import os
 
-
-from sokoban import *
+from supportFunction import *
 
 def dfs(path):
     """Thuật toán tìm kiếm theo chiều sâu"""

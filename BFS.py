@@ -4,7 +4,7 @@ import time
 import psutil
 import os
 
-from sokoban import *
+from supportFunction import *
 
 def bfs(path):
     """Thuật toán tìm kiếm theo chiều rộng"""
