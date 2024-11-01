@@ -27,7 +27,8 @@ WHITE, BLACK, BLUE, YELLOW,CYAN = (255, 255, 255), (0, 0, 0), (0, 0, 255), (255,
 images = {
     'player': pygame.image.load('image/player.png'),
     'wall': pygame.image.load('image/wall.png'),
-    'stone': pygame.image.load('image/rock.png'),
+    'stone': pygame.image.load('image/stone.png'),
+    'diamond': pygame.image.load('image/diamond.png'),
     'checkPoint': pygame.image.load('image/check_point.png'),
     'space': pygame.image.load('image/space.png'),
     'arrowLeft': pygame.image.load('image/left_arrow.png'),
@@ -89,7 +90,15 @@ def render_map(board):
                 screen.blit(images['wall'], pos)
             elif cell == '.':
                 screen.blit(images['checkPoint'], pos)
-            elif cell == '$' or cell=="*":
+            elif cell == '*':
+                screen.blit(images['diamond'], pos)
+                stone_position = (i, j)  # Position of the stone
+                if stone_position in stones_weights_dict:
+                    weight = stones_weights_dict[stone_position]
+                    weight_text = font.render(str(weight), True, BLACK)  # Render weight text
+                    weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 12))  # Position the text above the stone
+                    screen.blit(weight_text, weight_rect)  # Draw the weight text
+            elif cell=="$":
                 screen.blit(images['stone'], pos)
                 stone_position = (i, j)  # Position of the stone
                 if stone_position in stones_weights_dict:
@@ -97,11 +106,10 @@ def render_map(board):
                     weight_text = font.render(str(weight), True, CYAN)  # Render weight text
                     weight_rect = weight_text.get_rect(center=(pos[0] + 16, pos[1] + 12))  # Position the text above the stone
                     screen.blit(weight_text, weight_rect)  # Draw the weight text
-
             elif cell == '@' or cell== '+' :
                 screen.blit(images['player'], pos)
 
-
+    
     # Draw interface elements
     draw_interface()
 
@@ -170,8 +178,8 @@ def change_level(direction):
 
 def move_player(board, direction):
     """Move the player in the specified direction, handling stone movement and checking win condition."""
-    global player_x, player_y, step_count, stones_weights_dict, stones_point_list, total_weights_pushed
-
+    global player_x, player_y, step_count, stones_weights_dict, stones_point_list, total_weights_pushed,check_point_list
+    
     dx, dy = {'LEFT': (0, -1), 'RIGHT': (0, 1), 'UP': (-1, 0), 'DOWN': (1, 0)}[direction]
     new_x, new_y = player_x + dx, player_y + dy
 
@@ -198,11 +206,13 @@ def move_player(board, direction):
             # Đẩy viên đá
             board[stone_new_x][stone_new_y], board[new_x][new_y] = '$', '@'
             board[player_x][player_y] = ' '
-
-            if board[stone_new_x][stone_new_y] in check_point_list:
+            
+            if (stone_new_x,stone_new_y) in check_point_list:
                 board[stone_new_x][stone_new_y] = '*'
             elif board[new_x][new_y] in check_point_list:
+                
                 board[new_x][new_y] = '+'
+                
             # Cập nhật vị trí người chơi
             player_x, player_y = new_x, new_y
             step_count += 1
@@ -270,7 +280,7 @@ def main():
     global board,instruct_step
     #board = read_map(map_file_paths[selected_level])
     change_level(0)  # Load initial level
-
+    #print (check_point_list)
     running = True
     while running:
         for event in pygame.event.get():
