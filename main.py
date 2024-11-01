@@ -70,7 +70,7 @@ def read_map(file_path):
         # Hàng đầu tiên chứa khối lượng các viên đá
         stones_weights = list(map(int, lines[0].strip().split()))  # Lấy các giá trị khối lượng và chuyển thành số nguyên
         # Các hàng sau chứa bản đồ
-        return [list(line.strip()) for line in lines[1:]]
+        return [list(line.rstrip(" ")) for line in lines[1:]]
         
 stones_weights_dict={}
 MOVE_SPEED = 4

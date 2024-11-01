@@ -183,7 +183,7 @@ def parse_file(filename):
         lines = file.readlines()
     # Tách phần số và ma trận
     weights = list(map(int, lines[0].strip().split()))  # Dòng đầu tiên là số
-    layout = [line.strip() for line in lines[1:]]  # Các dòng còn lại là ma trận
+    layout = [line.rstrip(' ') for line in lines[1:]]  # Các dòng còn lại là ma trận
     return weights, layout
 
 
