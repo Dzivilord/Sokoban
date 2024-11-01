@@ -59,19 +59,20 @@ check_point_list, stones_point_list = [], []
 stones_weights=[]
 total_weights_pushed=0
 
-
-
 def read_map(file_path):
     global stones_weights
     """Load map data from a file and return as a 2D list along with stone weights."""
     with open(file_path, 'r') as file:
         lines = file.readlines()
         
-        # Hàng đầu tiên chứa khối lượng các viên đá
-        stones_weights = list(map(int, lines[0].strip().split()))  # Lấy các giá trị khối lượng và chuyển thành số nguyên
-        # Các hàng sau chứa bản đồ
-        return [list(line.rstrip(" ")) for line in lines[1:]]
+        # First line contains the stone weights
+        stones_weights = list(map(int, lines[0].strip().split()))  # Parse the stone weights into integers
         
+        map_layout = [list(line.rstrip()) for line in lines[1:] if line.strip()]  # Remove trailing whitespaces and empty lines
+        
+        return map_layout
+
+       
 stones_weights_dict={}
 MOVE_SPEED = 4
 def render_map(board):
